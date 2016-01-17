@@ -26,7 +26,7 @@ use mPDF;
 class PdfTemplate extends FancyTreeviewPdfClass {
 
 	public function pageBody() {
-		$cache_dir = WT_DATA_DIR . 'ftv_cache/';
+		$cache_dir = WT_DATA_DIR . 'ftv_pdf_cache/';
 
 		define("_JPGRAPH_PATH", $cache_dir);
 		define("_MPDF_TEMP_PATH", $cache_dir);
@@ -105,7 +105,7 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 	}
 
 	public function pageData() {
-		$path = WT_DATA_DIR . '/ftv_cache/';
+		$path = WT_DATA_DIR . '/ftv_pdf_cache/';
 		if (!file_exists($path)) {
 			File::mkdir($path);
 		}
