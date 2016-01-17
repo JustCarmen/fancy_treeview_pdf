@@ -76,6 +76,10 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 				}
 				$template = new AdminTemplate;
 				return $template->pageContent();
+				
+			case 'full_pdf':
+				echo $this->module()->printPage(0);
+				break;
 
 			case 'show_pdf':
 				$template = new PdfTemplate();

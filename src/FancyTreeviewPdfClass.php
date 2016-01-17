@@ -25,11 +25,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 
 	public function getPdfIcon() {
 		if ($this->access) {
-			return
-				'<div id="dialog-confirm" title="' . I18N::translate('Generate PDF') . '" style="display:none">
-					<p>' . I18N::translate('The pdf contains only visible generation blocks.') . '</p>
-				</div>
-				<a id="pdf" href="#"><i class="icon-mime-application-pdf"></i></a>';
+			return '<a id="pdf" href="#"><i class="icon-mime-application-pdf"></i></a>';
 		}
 	}
 
