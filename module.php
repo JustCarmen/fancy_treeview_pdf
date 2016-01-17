@@ -20,6 +20,7 @@ use Composer\Autoload\ClassLoader;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Log;
 use Fisharebest\Webtrees\Media;
 use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
@@ -69,11 +70,12 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	public function modAction($mod_action) {
 		switch ($mod_action) {
 			case 'admin_config':
+				if (Filter::postBool('save') && Filter::checkCsrf()) {
+					$this->setSetting('FTV_PDF_ACCESS_LEVEL', Filter::postInteger('NEW_FTV_PDF_ACCESS_LEVEL'));
+					Log::addConfigurationLog($this->getTitle() . ' config updated');
+				}
 				$template = new AdminTemplate;
 				return $template->pageContent();
-
-			case 'admin_save':				
-				break;
 
 			case 'show_pdf':
 				$template = new PdfTemplate();

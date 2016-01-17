@@ -18,6 +18,7 @@ namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template;
 
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Controller\PageController;
+use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\Functions\FunctionsEdit;
 use Fisharebest\Webtrees\I18N;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\FancyTreeviewPdfClass;
@@ -36,14 +37,9 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 			->restrictAccess(Auth::isAdmin())
 			->setPageTitle(I18N::translate('Fancy Treeview PDF'))
 			->pageHeader();
-
-		// add javascript and styleseheet
-		$this->includeJs($controller, 'admin');
-		echo $this->getStylesheet();
 	}
 
 	private function pageBody(PageController $controller) {
-		$FTV_SETTINGS = unserialize($this->getSetting('FTV_SETTINGS'));
 		?>
 		<!-- ADMIN PAGE CONTENT -->
 		<ol class="breadcrumb small">
@@ -52,24 +48,20 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 			<li class="active"><?php echo $controller->getPageTitle(); ?></li>
 		</ol>
 		<h2><?php echo $controller->getPageTitle(); ?></h2>
-		<form class="form-horizontal" method="post">								
+		<form class="form-inline" method="post">
+			<?php echo Filter::getCsrf(); ?>
+			<input type="hidden" name="save" value="1">
 			<!-- SHOW PDF -->
 			<div class="form-group">
-				<label class="control-label col-sm-4">
-					<?php echo I18N::translate('Show PDF icon?'); ?>
+				<label class="control-label">
+					<?php echo I18N::translate('Access level'); ?>
 				</label>
-				<div class="col-sm-4">
-					<?php echo FunctionsEdit::editFieldAccessLevel('NEW_FTV_OPTIONS[SHOW_PDF_ICON]', $this->options('show_pdf_icon'), 'class="form-control"'); ?>
-				</div>
-			</div>								
+				<?php echo FunctionsEdit::editFieldAccessLevel('NEW_FTV_PDF_ACCESS_LEVEL', $this->getSetting('FTV_PDF_ACCESS_LEVEL'), 'class="form-control"'); ?>
+			</div>
 			<!-- BUTTONS -->
-			<button name="save-options" class="btn btn-primary" type="submit">
+			<button class="btn btn-primary" type="submit">
 				<i class="fa fa-check"></i>
 				<?php echo I18N::translate('save'); ?>
-			</button>
-			<button name="reset-options" class="btn btn-primary" type="reset">
-				<i class="fa fa-recycle"></i>
-				<?php echo I18N::translate('reset'); ?>
 			</button>
 		</form>
 		<?php
