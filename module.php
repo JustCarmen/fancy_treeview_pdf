@@ -17,20 +17,28 @@
 namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf;
 
 use Composer\Autoload\ClassLoader;
+use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Media;
 use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
-use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
+use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
 
 class FancyTreeviewPdfModule extends FancyTreeviewModule {
+	
+	/** @var boolean. */
+	var $access;
 	
 	/** {@inheritdoc} */
 	public function __construct() {
 		parent::__construct();
 		
 		$this->directory = WT_MODULES_DIR . $this->getName();
+		
+		if ($this->getSetting('Access Level') >= Auth::accessLevel($this->tree)) {
+			$this->access = true;
+		}
 		
 		// register the namespaces
 		$loader = new ClassLoader();

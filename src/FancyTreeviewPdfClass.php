@@ -15,7 +15,6 @@
  */
 namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf;
 
-use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\I18N;
 
 /**
@@ -24,7 +23,7 @@ use Fisharebest\Webtrees\I18N;
 class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 
 	public function getPdfIcon() {
-		if ($this->getSetting('Access Level') >= Auth::accessLevel($this->tree)) {
+		if ($this->access) {
 			return
 				'<div id="dialog-confirm" title="' . I18N::translate('Generate PDF') . '" style="display:none">
 					<p>' . I18N::translate('The pdf contains only visible generation blocks.') . '</p>
@@ -77,10 +76,8 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 *
 	 * @return inline and/or external Javascript
 	 */
-	protected function includeJs($controller, $page) {
-		parent::includeJs($controller, $page);
-
-		if ($this->options('show_pdf_icon') >= Auth::accessLevel($this->tree)) {
+	protected function includeJs($controller) {
+		if ($this->access) {
 			$controller->addExternalJavascript($this->directory . '/js/pdf.js');
 		}
 	}
