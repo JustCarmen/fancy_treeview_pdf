@@ -18,6 +18,7 @@ namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf;
 
 use Composer\Autoload\ClassLoader;
 use Fisharebest\Webtrees\Auth;
+use Fisharebest\Webtrees\Database;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Log;
@@ -108,4 +109,10 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	
 }
 
-return new FancyTreeviewPdfModule;
+$row = Database::prepare(
+	"SELECT SQL_CACHE status FROM `##module` WHERE module_name = 'fancy_treeview'"
+)->fetchOneRow();
+
+if($row->status === 'enabled') {	
+	return new FancyTreeviewPdfModule;
+}
