@@ -19,13 +19,23 @@ use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\I18N;
 
 /**
- * Class FancyTreeview
+ * Class FancyTreeview PDF
  */
 class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 
+	public function getPdfIcon() {
+		if ($this->getSetting('Access Level') >= Auth::accessLevel($this->tree)) {
+			return
+				'<div id="dialog-confirm" title="' . I18N::translate('Generate PDF') . '" style="display:none">
+					<p>' . I18N::translate('The pdf contains only visible generation blocks.') . '</p>
+				</div>
+				<a id="pdf" href="#"><i class="icon-mime-application-pdf"></i></a>';
+		}
+	}
+
 	/**
 	 * The sortname is used in the pdf index
-	 * 
+	 *
 	 * @param type $person
 	 * @return type
 	 */
@@ -44,36 +54,21 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 * @param type $person
 	 * @return string
 	 */
-	private function printName($person) {
-		return
-			'<indexentry content="' . $this->getSortName($person) . '">' .
-			$person->getFullName() .
-			'</indexentry>';
+	public function printName($person, $name) {
+		return '<indexentry content="' . $this->getSortName($person) . '">' . $name . '</indexentry>';
 	}
 
 	/**
-	 * Print the name of a person with the link to the individual page
+	 * We need the index entry tag for generation the index page in pdf
 	 *
 	 * @param type $person
 	 * @param type $xref
 	 * @return string
 	 */
-	private function printNameUrl($person, $xref = '') {
-		if ($xref) {
-			$name = ' name="' . $xref . '"';
-		} else {
-			$name = '';
-		}
-
-		// we need the index entry tag for generation the index page in pdf
-		return
-			'<indexentry content="' . $this->getSortName($person) . '">' .
-			'<a' . $name . ' href="' . $person->getHtmlUrl() . '">' .
-			$person->getFullName() .
-			'</a>' .
-			'</indexentry>';
+	public function printNameUrl($person, $url) {
+		return '<indexentry content="' . $this->getSortName($person) . '">' . $url . '</indexentry>';
 	}
-	
+
 	/**
 	 * Determine which javascript file we need
 	 *
@@ -84,7 +79,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 */
 	protected function includeJs($controller, $page) {
 		parent::includeJs($controller, $page);
-		
+
 		if ($this->options('show_pdf_icon') >= Auth::accessLevel($this->tree)) {
 			$controller->addExternalJavascript($this->directory . '/js/pdf.js');
 		}
