@@ -76,7 +76,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 *
 	 * @return inline and/or external Javascript
 	 */
-	protected function includeJs($controller) {
+	public function includeJs($controller) {
 		if ($this->access) {
 			$controller->addExternalJavascript($this->directory . '/js/pdf.js');
 		}
