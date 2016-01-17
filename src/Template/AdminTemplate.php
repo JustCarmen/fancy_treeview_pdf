@@ -20,6 +20,7 @@ use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Controller\PageController;
 use Fisharebest\Webtrees\Functions\FunctionsEdit;
 use Fisharebest\Webtrees\I18N;
+use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\FancyTreeviewPdfClass;
 
 class AdminTemplate extends FancyTreeviewPdfClass {
 
@@ -33,7 +34,7 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 	private function pageHeader(PageController $controller) {
 		$controller
 			->restrictAccess(Auth::isAdmin())
-			->setPageTitle(I18N::translate('Fancy Treeview'))
+			->setPageTitle(I18N::translate('Fancy Treeview PDF'))
 			->pageHeader();
 
 		// add javascript and styleseheet

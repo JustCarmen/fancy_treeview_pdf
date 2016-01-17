@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-namespace JustCarmen\WebtreesAddOns\FancyTreeview\Template;
+namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template;
 
 use Fisharebest\Webtrees\File;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\User;
-use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewClass;
+use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\FancyTreeviewPdfClass;
 use mPDF;
 
-class PdfTemplate extends FancyTreeviewClass {
+class PdfTemplate extends FancyTreeviewPdfClass {
 
 	public function pageBody() {
 		$cache_dir = WT_DATA_DIR . 'ftv_cache/';

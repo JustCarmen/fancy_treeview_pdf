@@ -16,15 +16,12 @@
 namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf;
 
 use Fisharebest\Webtrees\Auth;
-use Fisharebest\Webtrees\Controller\BaseController;
 use Fisharebest\Webtrees\I18N;
-use Fisharebest\Webtrees\Theme;
-use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewClass;
 
 /**
  * Class FancyTreeview
  */
-class FancyTreeviewPdfClass extends FancyTreeviewClass {
+class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 
 	/**
 	 * The sortname is used in the pdf index
