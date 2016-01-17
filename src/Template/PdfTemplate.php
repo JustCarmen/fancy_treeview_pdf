@@ -32,12 +32,12 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 		define("_MPDF_TEMP_PATH", $cache_dir);
 		define('_MPDF_TTFONTDATAPATH', $cache_dir);
 
-		require_once(WT_MODULES_DIR . $this->getName() . '/packages/mpdf60/mpdf.php');
+		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf60/mpdf.php');
 
 		$tmpfile = $cache_dir . 'fancy-treeview-tmp.txt';
 		if (file_exists($cache_dir) && is_readable($tmpfile)) {
-			$stylesheet = file_get_contents($this->directory . '/css/pdf/style.css');
-			$stylesheet_rtl = file_get_contents($this->directory . '/css/pdf/style-rtl.css');
+			$stylesheet = file_get_contents($this->directory . '/css/style.css');
+			$stylesheet_rtl = file_get_contents($this->directory . '/css/style-rtl.css');
 			$html = file_get_contents($tmpfile);
 
 			$header = '<header>=== ' . $this->tree->getTitleHtml() . ' ===</header>';
