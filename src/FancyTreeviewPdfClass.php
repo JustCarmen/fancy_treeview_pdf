@@ -80,7 +80,9 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	public function includeJs($controller) {
 		if ($this->access) {
 			$controller
-				->addInlineJavascript('var FPdfModuleName = "' . $this->getName() . '";', BaseController::JS_PRIORITY_HIGH)
+				->addInlineJavascript(''
+					. 'var FTV_PDF_ModuleName = "' . $this->getName() . '";
+				', BaseController::JS_PRIORITY_HIGH)
 				->addExternalJavascript($this->directory . '/js/pdf.js');
 		}
 	}

@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global FPdfModuleName, WT_CSRF_TOKEN, RootID, PageTitle */
+/* global FTV_PDF_ModuleName, WT_CSRF_TOKEN, RootID, PageTitle */
 
 // convert page to pdf
 jQuery("#pdf").click(function () {
@@ -63,7 +63,7 @@ function createPDF() {
 			var thumb = qstring("thumb", jQuery(this).attr("src"));
 			jQuery.ajax({
 				type: "GET",
-				url: "module.php?mod=" + FPdfModuleName + "&mod_action=pdf_thumb_data&mid=" + mid + "&thumb=" + thumb,
+				url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=pdf_thumb_data&mid=" + mid + "&thumb=" + thumb,
 				context: this,
 				success: function (data) {
 					jQuery(this).attr("src", data);
@@ -83,14 +83,14 @@ function getPDF() {
 	jQuery.when(modifyContent()).then(function () {
 		jQuery.ajax({
 			type: "POST",
-			url: "module.php?mod=" + FPdfModuleName + "&mod_action=pdf_data",
+			url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=pdf_data",
 			data: {
 				"pdfContent": jQuery("#new-pdf-content").html()
 			},
 			csrf: WT_CSRF_TOKEN,
 			success: function () {
 				jQuery("#pdf-content, #new-pdf-content").remove();
-				window.location.href = "module.php?mod=" + FPdfModuleName + "&mod_action=show_pdf&rootid=" + RootID + "&title=" + PageTitle;
+				window.location.href = "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=show_pdf&rootid=" + RootID + "&title=" + PageTitle;
 			}
 		});
 	});
