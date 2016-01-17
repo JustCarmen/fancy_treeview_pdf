@@ -15,6 +15,7 @@
  */
 namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf;
 
+use Fisharebest\Webtrees\Controller\BaseController;
 use Fisharebest\Webtrees\I18N;
 
 /**
@@ -78,7 +79,9 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 */
 	public function includeJs($controller) {
 		if ($this->access) {
-			$controller->addExternalJavascript($this->directory . '/js/pdf.js');
+			$controller
+				->addInlineJavascript('var FPdfModuleName = "' . $this->getName() . '";', BaseController::JS_PRIORITY_HIGH)
+				->addExternalJavascript($this->directory . '/js/pdf.js');
 		}
 	}
 
