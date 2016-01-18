@@ -54,6 +54,7 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 			$mpdf->simpleTables = true;
 			$mpdf->shrink_tables_to_fit = 1;
 
+			$mpdf->autoLangToFont = true;
 			$mpdf->autoScriptToLang = true;
 			if (I18N::direction() === 'rtl') {
 				$mpdf->SetDirectionality('rtl');
