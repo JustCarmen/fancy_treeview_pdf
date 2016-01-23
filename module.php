@@ -107,6 +107,16 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 		}
 	}
 	
+	/** {@inheritdoc} */
+	public function hasTabContent() {
+		return false;
+	}
+	
+	/** {@inheritdoc} */
+	public function getMenu() {
+		return null;
+	}
+	
 }
 
 $row = Database::prepare(
