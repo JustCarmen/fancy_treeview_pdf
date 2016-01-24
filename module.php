@@ -85,6 +85,27 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 			case 'show_pdf':
 				$template = new PdfTemplate();
 				return $template->pageBody();
+				
+			case 'output_pdf':				
+				$file = WT_DATA_DIR . 'ftv_pdf_cache/' . Filter::get('title') . '.pdf';
+				
+				header('Content-Description: File Transfer');				
+				header('Content-Transfer-Encoding: binary');
+				header('Cache-Control: public, must-revalidate, max-age=0');
+				header('Pragma: public');
+				header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+				header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+				header('Content-Type: application/force-download');
+				header('Content-Type: application/octet-stream', false);
+				header('Content-Type: application/download', false);
+				header('Content-Type: application/pdf', false);
+				header('Content-disposition: attachment; filename="'.Filter::get('title').'"');
+				
+				$fd = fopen($file,'rb');
+				fpassthru($fd);
+				fclose($fd);
+				unlink($file);
+				break;
 
 			case 'pdf_data':
 				$template = new PdfTemplate;

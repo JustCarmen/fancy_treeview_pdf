@@ -32,6 +32,7 @@ function qstring(key, url) {
 
 // convert page to pdf
 jQuery("#pdf").click(function() {
+	jQuery(".pdf-waiting-message").fadeIn("slow");
 	createPDF();
 });
 
@@ -86,9 +87,16 @@ function getPDF() {
 			csrf: WT_CSRF_TOKEN,
 			success: function() {
 				jQuery("#pdf-content, #new-pdf-content").remove();
-				window.location.href = "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=show_pdf&rootid=" + RootID + "&title=" + PageTitle;
-			}
-		});
+				jQuery.ajax({
+					type: "GET",
+					url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=show_pdf&rootid=" + RootID + "&title=" + PageTitle,
+					success: function() {
+						jQuery(".pdf-waiting-message").fadeOut("slow");
+						window.location.href = "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=output_pdf&title=" + PageTitle;
+					}
+				});
+			}			
+		})
 	});
 }
 
