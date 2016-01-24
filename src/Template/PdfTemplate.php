@@ -28,8 +28,8 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 	public function pageBody() {
 		$cache_dir = WT_DATA_DIR . 'ftv_pdf_cache/';
 
-		define("_JPGRAPH_PATH", $cache_dir);
-		define("_MPDF_TEMP_PATH", $cache_dir);
+		define('_JPGRAPH_PATH', $cache_dir);
+		define('_MPDF_TEMP_PATH', $cache_dir);
 		define('_MPDF_TTFONTDATAPATH', $cache_dir);
 
 		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf60/mpdf.php');
