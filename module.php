@@ -59,7 +59,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 
 	/** {@inheritdoc} */
 	public function getDescription() {
-		return /* I18N: Description of the module */ I18N::translate('Extend the Fancy Treeview module with  a PDF option.');
+		return /* I18N: Description of the module */ I18N::translate('Fancy Treeview module extension: offer your users to download a Fancy Treeview page as PDF.');
 	}
 	
 	/** {@inheritdoc} */
