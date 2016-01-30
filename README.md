@@ -24,7 +24,9 @@ This module doesn't contain any stylesheets. The few styles used inside this mod
 
 Installation and updating
 -------------------------
-After you have installed this module goto the webtrees control panel to activate this module. If you don't see the Fancy Treeview PDF module in the list of installed modules, you probably haven't installed the Fancy Treeview module yet. Please note: This module won't work without the main module Fancy Treeview installed.
+After you have installed this module goto the webtrees control panel to activate this module. If you don't see the Fancy Treeview PDF module in the list of installed modules, you probably haven't installed the Fancy Treeview module yet.
+_Please note: This module won't work without the main module Fancy Treeview installed._
+
 For more information about installation and updating modules go to the JustCarmen help pages: http://www.justcarmen.nl/help
 
 Bugs and feature requests
