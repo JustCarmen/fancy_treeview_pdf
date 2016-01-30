@@ -43,25 +43,25 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 		?>
 		<!-- ADMIN PAGE CONTENT -->
 		<ol class="breadcrumb small">
-			<li><a href="admin.php"><?php echo I18N::translate('Control panel'); ?></a></li>
-			<li><a href="admin_modules.php"><?php echo I18N::translate('Module administration'); ?></a></li>
-			<li class="active"><?php echo $controller->getPageTitle(); ?></li>
+			<li><a href="admin.php"><?php echo I18N::translate('Control panel') ?></a></li>
+			<li><a href="admin_modules.php"><?php echo I18N::translate('Module administration') ?></a></li>
+			<li class="active"><?php echo $controller->getPageTitle() ?></li>
 		</ol>
-		<h2><?php echo $controller->getPageTitle(); ?></h2>
+		<h2><?php echo $controller->getPageTitle() ?></h2>
 		<form class="form-inline" method="post">
-			<?php echo Filter::getCsrf(); ?>
+			<?php echo Filter::getCsrf() ?>
 			<input type="hidden" name="save" value="1">
 			<!-- SHOW PDF -->
 			<div class="form-group">
 				<label class="control-label">
-					<?php echo I18N::translate('Access level'); ?>
+					<?php echo I18N::translate('Access level') ?>
 				</label>
-				<?php echo FunctionsEdit::editFieldAccessLevel('NEW_FTV_PDF_ACCESS_LEVEL', $this->getSetting('FTV_PDF_ACCESS_LEVEL'), 'class="form-control"'); ?>
+				<?php echo FunctionsEdit::editFieldAccessLevel('NEW_FTV_PDF_ACCESS_LEVEL', $this->getSetting('FTV_PDF_ACCESS_LEVEL'), 'class="form-control"') ?>
 			</div>
 			<!-- BUTTONS -->
 			<button class="btn btn-primary" type="submit">
 				<i class="fa fa-check"></i>
-				<?php echo I18N::translate('save'); ?>
+				<?php echo I18N::translate('save') ?>
 			</button>
 		</form>
 		<?php
