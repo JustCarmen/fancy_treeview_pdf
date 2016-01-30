@@ -54,7 +54,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 
 	/** {@inheritdoc} */
 	public function getTitle() {
-		return /* I18N: Name of the module */ I18N::translate('Fancy Treeview PDF');
+		return /* I18N: Name of the Fancy Treeview PDF-module */ I18N::translate('Fancy Treeview PDF');
 	}
 
 	/** {@inheritdoc} */
