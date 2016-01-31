@@ -38,7 +38,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 		
 		$this->directory = WT_MODULES_DIR . $this->getName();
 		
-		if ($this->getSetting('Access Level') >= Auth::accessLevel($this->tree)) {
+		if (!$this->getSetting('FTV_PDF_ACCESS_LEVEL') || $this->getSetting('FTV_PDF_ACCESS_LEVEL') >= Auth::accessLevel($this->tree)) {
 			$this->access = true;
 		}
 		
