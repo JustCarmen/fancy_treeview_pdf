@@ -32,7 +32,7 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 		define('_MPDF_TEMP_PATH', $cache_dir);
 		define('_MPDF_TTFONTDATAPATH', $cache_dir);
 
-		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf60/mpdf.php');
+		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf/mpdf.php');
 
 		$tmpfile = $cache_dir . 'fancy-treeview-tmp.txt';
 		if (file_exists($cache_dir) && is_readable($tmpfile)) {
