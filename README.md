@@ -11,7 +11,7 @@ This module is an extension for the [Fancy Treeview module](https://github.com/J
 
 Required disk space
 -------------------
-The PDF-library and especially the font-library inside this library is huge. Since webtrees offers a lot of languages we need the extended font-library to serve your visitors from all parts of the world.
+The [mPDF-library](https://github.com/mpdf/mpdf) is a big library. Since webtrees offers many languages we need the complete font-library that comes with mPDF to serve your visitors from all parts of the world.
 If you don’t need the PDF-option or you don’t have enough disk space on your server (minimum of 100MB free space is required) don’t install this extra module.
 
 Translations
