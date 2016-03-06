@@ -37,22 +37,22 @@ jQuery("#pdf").click(function() {
 });
 
 function createPDF() {
-	// clone the content now
-	jQuery("body").append('<div id="pdf-content">');
-	jQuery("#pdf-content").append(jQuery("#fancy_treeview-page").clone()).hide();
-
-	var content = jQuery("#pdf-content");
+	// initialize the content to modify and output div (both are staying in memory)
+	var content = jQuery('<div id="pdf-content">')
+	var output = jQuery('<div id="pdf-output">');
+	
+	content.append(jQuery("#fancy_treeview-page").clone());
 
 	if (jQuery("#btn_next").length > 0) {
 		jQuery("#fancy_treeview", content).load("module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=full_pdf&rootid=" + qstring('rootid'), function() {
-			getThumbs(content);
+			getThumbs(content, output);
 		});
 	} else {
-		getThumbs(content);
+		getThumbs(content, output);
 	}
 }
 
-function getThumbs(content) {
+function getThumbs(content, output) {
 	var counter = jQuery("a.gallery img", content).length;
 	if (counter > 0) {
 		jQuery("a.gallery img", content).each(function() {
@@ -66,27 +66,26 @@ function getThumbs(content) {
 					jQuery(this).attr("src", data);
 					counter--;
 					if (counter === 0) {
-						getPDF();
+						getPDF(content, output);
 					}
 				}
 			});
 		});
 	} else {
-		getPDF();
+		getPDF(content, output);
 	}
 }
 
-function getPDF() {
-	jQuery.when(modifyContent()).then(function() {
+function getPDF(content, output) {
+	jQuery.when(modifyContent(content, output)).then(function() {
 		jQuery.ajax({
 			type: "POST",
 			url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=pdf_data",
 			data: {
-				"pdfContent": jQuery("#new-pdf-content").html()
+				"pdfContent": output.html()
 			},
 			csrf: WT_CSRF_TOKEN,
 			success: function() {
-				jQuery("#pdf-content, #new-pdf-content").remove();
 				jQuery.ajax({
 					type: "GET",
 					url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=write_pdf&rootid=" + RootID + "&title=" + PageTitle,
@@ -100,9 +99,7 @@ function getPDF() {
 	});
 }
 
-function modifyContent() {
-	var content = jQuery("#pdf-content");
-
+function modifyContent(content, output) {
 	// first reset the special blockheader in the colors and clouds theme back to default
 	jQuery("table.blockheader", content).each(function() {
 		jQuery(this).replaceWith('<div class="blockheader">' + jQuery(this).html() + '</div>');
@@ -167,12 +164,10 @@ function modifyContent() {
 	});
 
 	// Simplify the output
-	content.after('<div id="new-pdf-content">');
-	var pdf_content = jQuery("#new-pdf-content").hide();
-	pdf_content.append(jQuery("h2", content));
+	output.append(jQuery("h2", content));
 	jQuery(".blockheader, .parents, .children-text, .children-list", content).each(function() {
-		jQuery(this).appendTo(pdf_content);
+		jQuery(this).appendTo(output);
 	});
 
-	jQuery("h2, .blockheader, .parents, .children-text, .children-list", pdf_content).after('\n');
+	jQuery("h2, .blockheader, .parents, .children-text, .children-list", output).after('\n');
 }
