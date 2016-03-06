@@ -22,7 +22,6 @@ use Fisharebest\Webtrees\Database;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Log;
-use Fisharebest\Webtrees\Media;
 use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
@@ -121,17 +120,6 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 			case 'pdf_data':
 				$template = new PdfTemplate;
 				return $template->pageData();
-
-			case 'pdf_thumb_data':
-				$xref			= Filter::get('mid');
-				$mediaobject	= Media::getInstance($xref, $this->tree);
-				$thumb			= Filter::get('thumb');
-				if ($thumb === '2') { // Fancy thumb
-					echo $this->module()->cacheFileName($mediaobject);
-				} else {
-					echo $mediaobject->getServerFilename('thumb');
-				}
-				break;
 
 			default:
 				http_response_code(404);

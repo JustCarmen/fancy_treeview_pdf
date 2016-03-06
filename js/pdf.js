@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global FTV_PDF_ModuleName, WT_CSRF_TOKEN, RootID, PageTitle */
+/* global FTV_PDF_ModuleName, WT_CSRF_TOKEN, RootID, PageTitle, textDirection */
 
 function qstring(key, url) {
 	var KeysValues, KeyValue, i;
@@ -45,31 +45,7 @@ function createPDF() {
 
 	if (jQuery("#btn_next").length > 0) {
 		jQuery("#fancy_treeview", content).load("module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=full_pdf&rootid=" + qstring('rootid'), function() {
-			getThumbs(content, output);
-		});
-	} else {
-		getThumbs(content, output);
-	}
-}
-
-function getThumbs(content, output) {
-	var counter = jQuery("a.gallery img", content).length;
-	if (counter > 0) {
-		jQuery("a.gallery img", content).each(function() {
-			var mid = qstring("mid", jQuery(this).attr("src"));
-			var thumb = qstring("thumb", jQuery(this).attr("src"));
-			jQuery.ajax({
-				type: "GET",
-				url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=pdf_thumb_data&mid=" + mid + "&thumb=" + thumb,
-				context: this,
-				success: function(data) {
-					jQuery(this).attr("src", data);
-					counter--;
-					if (counter === 0) {
-						getPDF(content, output);
-					}
-				}
-			});
+			getPDF(content, output);
 		});
 	} else {
 		getPDF(content, output);
