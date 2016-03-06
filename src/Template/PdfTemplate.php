@@ -87,12 +87,16 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 			$chunks = count($html_chunks);
 			$i = 1;
 			foreach ($html_chunks as $html_chunk) {
+				// write html body parts only (option 2);
 				if ($i === 1) {
+					// first chunk (initialize all buffers - init=true)
 					$mpdf->WriteHTML($html_chunk, 2, true, false);
 				} elseif ($i === $chunks) {
-					$mpdf->WriteHTML($html_chunk, 2, false, false);
-				} else {
+					// last chunck (close all buffers - close=true)
 					$mpdf->WriteHTML($html_chunk, 2, false, true);
+				} else {
+					// all other parts (keep the buffer open)
+					$mpdf->WriteHTML($html_chunk, 2, false, false);
 				}
 				$i++;
 			}
