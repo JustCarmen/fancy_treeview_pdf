@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global FTV_PDF_ModuleName, WT_CSRF_TOKEN, RootID, PageTitle, textDirection */
+/* global WT_CSRF_TOKEN, FTV_PDF_ModuleName, FTV_CACHE_DIR, RootID, PageTitle, textDirection */
 
 function qstring(key, url) {
 	var KeysValues, KeyValue, i;
@@ -39,26 +39,45 @@ jQuery("#pdf").click(function() {
 function createPDF() {
 	// initialize the content to modify and output div (both are staying in memory)
 	var content = jQuery('<div id="pdf-content">')
-	var output = jQuery('<div id="pdf-output">');
 	
 	content.append(jQuery("#fancy_treeview-page").clone());
 
 	if (jQuery("#btn_next").length > 0) {
 		jQuery("#fancy_treeview", content).load("module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=full_pdf&rootid=" + qstring('rootid'), function() {
-			getPDF(content, output);
+			getPDF(content);
 		});
 	} else {
-		getPDF(content, output);
+		getPDF(content);
 	}
 }
 
-function getPDF(content, output) {
-	jQuery.when(modifyContent(content, output)).then(function() {
+function getPDF(content) {
+	jQuery.when(modifyContent(content)).then(function() {
+		// Simplify the output
+		var output = new Array;
+		jQuery("h2, .blockheader, .parents, .children-text, .children-list", content).each(function() {
+			// change image path in text output in stead of in the dom to prevent a 404 error. 
+			// We need to replace the image src path with the server file path for mPDF to catch the image.
+			var img_src = jQuery(this).find("img").attr("src");
+			var img_path = FTV_CACHE_DIR + jQuery(this).find("img").data("cachefilename");
+			var string = jQuery(this).wrap('<p>').parent().html();
+			if(typeof img_src !== 'undefined') {
+				img_src = img_src.replace(/&/g , "&amp;");
+				string = string.replace(img_src, img_path);
+			}
+			output.push(string);	
+		});
+
+		var html = '';
+		for (var i = 0; i < output.length; i++) {
+			html += output[i];
+		}
+		
 		jQuery.ajax({
 			type: "POST",
 			url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=pdf_data",
 			data: {
-				"pdfContent": output.html()
+				"pdfContent": html
 			},
 			csrf: WT_CSRF_TOKEN,
 			success: function() {
@@ -70,12 +89,12 @@ function getPDF(content, output) {
 						window.location.href = "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=output_pdf&title=" + PageTitle;
 					}
 				});
-			}			
+			}
 		})
 	});
 }
 
-function modifyContent(content, output) {
+function modifyContent(content) {
 	// first reset the special blockheader in the colors and clouds theme back to default
 	jQuery("table.blockheader", content).each(function() {
 		jQuery(this).replaceWith('<div class="blockheader">' + jQuery(this).html() + '</div>');
@@ -92,14 +111,14 @@ function modifyContent(content, output) {
 	// mPDF doesn't support dir="auto", so set the textdirection to rtl if needed.
 	if (textDirection === "rtl") {
 		jQuery("span[dir=auto]", content).each(function() {
-			jQuery(this).attr("dir", "rtl")
-		})
+			jQuery(this).attr("dir", "rtl");
+		});
 	}
 
 	// Set some extra classes
 	jQuery(".parents", content).each(function() {
 		jQuery(".NAME:first", this).addClass("parents-name");
-	})
+	});
 	jQuery(".children p", content).addClass("children-text");
 
 	// Turn blocks into a table for better display in pdf
@@ -139,11 +158,4 @@ function modifyContent(content, output) {
 		});
 	});
 
-	// Simplify the output
-	output.append(jQuery("h2", content));
-	jQuery(".blockheader, .parents, .children-text, .children-list", content).each(function() {
-		jQuery(this).appendTo(output);
-	});
-
-	jQuery("h2, .blockheader, .parents, .children-text, .children-list", output).after('\n');
 }
