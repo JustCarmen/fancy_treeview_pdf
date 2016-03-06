@@ -89,23 +89,34 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 			case 'output_pdf':				
 				$file = WT_DATA_DIR . 'ftv_pdf_cache/' . Filter::get('title') . '.pdf';
 				
-				header('Content-Description: File Transfer');				
-				header('Content-Transfer-Encoding: binary');
-				header('Cache-Control: public, must-revalidate, max-age=0');
-				header('Pragma: public');
-				header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-				header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-				header('Content-Type: application/force-download');
-				header('Content-Type: application/octet-stream', false);
-				header('Content-Type: application/download', false);
-				header('Content-Type: application/pdf', false);
-				header('Content-disposition: attachment; filename="'.Filter::get('title').'"');
-				
-				$fd = fopen($file,'rb');
-				fpassthru($fd);
-				fclose($fd);
-				unlink($file);
-				break;
+				// see mpdf/includes/out.php
+				try {
+					header('Content-Description: File Transfer');
+					header('Content-Transfer-Encoding: binary');
+					header('Cache-Control: public, must-revalidate, max-age=0');
+					header('Pragma: public');
+					header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+					header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+					header('Content-Type: application/force-download');
+					header('Content-Type: application/octet-stream', false);
+					header('Content-Type: application/download', false);
+					header('Content-Type: application/pdf', false);
+					header('Content-disposition: attachment; filename="'.Filter::get('title').'"');
+
+					$filesize = filesize($file);
+					if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) OR empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+						// don't use length if server using compression
+						header('Content-Length: '.$filesize);
+					}
+
+					$fd = fopen($file,'rb');
+					fpassthru($fd);
+					fclose($fd);
+					unlink($file);
+					break;
+				} catch (\Exception $ex) {
+					// Something went wrong
+				}
 
 			case 'pdf_data':
 				$template = new PdfTemplate;
