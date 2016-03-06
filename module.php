@@ -82,7 +82,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 				echo $this->module()->printPage(0);
 				break;
 
-			case 'show_pdf':
+			case 'write_pdf':
 				$template = new PdfTemplate();
 				return $template->pageBody();
 				

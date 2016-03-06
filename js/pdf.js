@@ -89,7 +89,7 @@ function getPDF() {
 				jQuery("#pdf-content, #new-pdf-content").remove();
 				jQuery.ajax({
 					type: "GET",
-					url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=show_pdf&rootid=" + RootID + "&title=" + PageTitle,
+					url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=write_pdf&rootid=" + RootID + "&title=" + PageTitle,
 					success: function() {
 						jQuery(".pdf-waiting-message").fadeOut("slow");
 						window.location.href = "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=output_pdf&title=" + PageTitle;
