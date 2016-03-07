@@ -20,11 +20,26 @@ use Composer\Autoload\ClassLoader;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Database;
 use Fisharebest\Webtrees\Filter;
+use Fisharebest\Webtrees\FlashMessages;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Log;
 use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
+
+define('FTV_PDF_VERSION', '1.7.4-dev');
+define('FTV_COMPATIBLE_VERSION', '1.7.4-dev');
+
+/**
+ * PDF extension for the Fancy Treeview module
+ * 
+ * First check if the correct version of the Fancy Treeview module is installed and enabled (Class won't exist if the module hasn't been installed or has been disabled.
+ */
+$ftv_module_status = Database::prepare("SELECT status FROM `##module` WHERE module_name = 'fancy_treeview'")->fetchOne();
+if(!file_exists(WT_MODULES_DIR . 'fancy_treeview') || $ftv_module_status === 'disabled' || FTV_VERSION <> FTV_COMPATIBLE_VERSION) {
+	FlashMessages::addMessage(I18N::translate('You have installed the Fancy Treeview PDF module. This module won’t work without the correct version of the Fancy Treeview module installed and enabled. Please install and enable Fancy Treeview version %s to use this module.', FTV_COMPATIBLE_VERSION));
+	return;
+}
 
 class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	
@@ -139,10 +154,4 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	
 }
 
-$row = Database::prepare(
-	"SELECT SQL_CACHE status FROM `##module` WHERE module_name = 'fancy_treeview'"
-)->fetchOneRow();
-
-if($row->status === 'enabled') {	
-	return new FancyTreeviewPdfModule;
-}
+return new FancyTreeviewPdfModule;
