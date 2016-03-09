@@ -132,10 +132,6 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 					// Something went wrong
 				}
 
-			case 'pdf_data':
-				$template = new PdfTemplate;
-				return $template->pageData();
-
 			default:
 				http_response_code(404);
 				break;

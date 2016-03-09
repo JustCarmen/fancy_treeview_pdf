@@ -16,7 +16,6 @@
  */
 namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template;
 
-use Fisharebest\Webtrees\File;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\User;
@@ -34,20 +33,19 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 
 		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf/mpdf.php');
 
-		$tmpfile = $cache_dir . 'fancy-treeview-tmp.txt';
-		if (file_exists($cache_dir) && is_readable($tmpfile)) {
-			$stylesheet = file_get_contents($this->directory . '/css/style.css');
-			$stylesheet_rtl = file_get_contents($this->directory . '/css/style-rtl.css');
-			$html = file_get_contents($tmpfile);
+		$stylesheet = file_get_contents($this->directory . '/css/style.css');
+		$stylesheet_rtl = file_get_contents($this->directory . '/css/style-rtl.css');
+		
+		$html = Filter::post('pdfContent');
 
-			$header = '<header>=== ' . $this->tree->getTitleHtml() . ' ===</header>';
-			$footer = '<footer>' .
-				'<table><tr>' .
-				'<td class="left">' . WT_BASE_URL . '</td>' .
-				'<td class="center">{DATE d-m-Y}</td>' .
-				'<td class="right">{PAGENO}</td>' .
-				'</tr></table>' .
-				'</footer>';
+		$header = '<header>=== ' . $this->tree->getTitleHtml() . ' ===</header>';
+		$footer = '<footer>' .
+			'<table><tr>' .
+			'<td class="left">' . WT_BASE_URL . '</td>' .
+			'<td class="center">{DATE d-m-Y}</td>' .
+			'<td class="right">{PAGENO}</td>' .
+			'</tr></table>' .
+			'</footer>';
 
 			$mpdf = new mPDF();
 
@@ -108,39 +106,5 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 				<indexinsert usedivletters="on" links="on" collation="' . WT_LOCALE . '.utf8" collationgroup="' . I18N::collation() . '" />';
 			$mpdf->writeHTML($index);
 			$mpdf->Output($cache_dir . Filter::get('title') . '.pdf', 'F');
-		} else {
-			echo $this->addMessage('alert', 'danger', false, I18N::translate('Error: the pdf file could not be generated.'));
-		}
-	}
-
-	public function pageData() {
-		$path = WT_DATA_DIR . '/ftv_pdf_cache/';
-		if (!file_exists($path)) {
-			File::mkdir($path);
-		}
-		$filename = $path . 'fancy-treeview-tmp.txt';
-		$content = Filter::post('pdfContent');
-
-		// make our datafile if it does not exist.
-		if (!file_exists($filename)) {
-			$handle = fopen($filename, 'w');
-			fclose($handle);
-			chmod($filename, 0644);
-		}
-
-		// Let's make sure the file exists and is writable first.
-		if (is_writable($filename)) {
-			if (!$handle = @fopen($filename, 'w')) {
-				exit;
-			}
-
-			// Write the pdfContent to our data.txt file.
-			if (fwrite($handle, $content) === FALSE) {
-				exit;
-			}
-
-			fclose($handle);
-		}
-	}
-
+	}	
 }

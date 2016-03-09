@@ -75,20 +75,14 @@ function getPDF(content) {
 		
 		jQuery.ajax({
 			type: "POST",
-			url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=pdf_data",
+			url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=write_pdf&rootid=" + RootID + "&title=" + PageTitle,
 			data: {
 				"pdfContent": html
 			},
 			csrf: WT_CSRF_TOKEN,
 			success: function() {
-				jQuery.ajax({
-					type: "GET",
-					url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=write_pdf&rootid=" + RootID + "&title=" + PageTitle,
-					success: function() {
-						jQuery(".pdf-waiting-message").fadeOut("slow");
-						window.location.href = "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=output_pdf&title=" + PageTitle;
-					}
-				});
+				jQuery(".pdf-waiting-message").fadeOut("slow");
+				window.location.href = "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=output_pdf&title=" + PageTitle;
 			}
 		})
 	});
