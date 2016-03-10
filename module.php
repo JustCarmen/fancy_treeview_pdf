@@ -19,6 +19,7 @@ namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf;
 use Composer\Autoload\ClassLoader;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Database;
+use Fisharebest\Webtrees\File;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\FlashMessages;
 use Fisharebest\Webtrees\I18N;
@@ -97,6 +98,10 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 				break;
 
 			case 'write_pdf':
+				$cache_dir = WT_DATA_DIR . 'ftv_pdf_cache/';
+				if (!file_exists($cache_dir)) {
+					File::mkdir($cache_dir);
+				}
 				$template = new PdfTemplate();
 				return $template->pageBody();
 				
