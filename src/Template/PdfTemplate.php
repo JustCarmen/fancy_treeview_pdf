@@ -25,11 +25,11 @@ use mPDF;
 class PdfTemplate extends FancyTreeviewPdfClass {
 
 	public function pageBody() {
-		$cache_dir = WT_DATA_DIR . 'ftv_pdf_cache/';
+		$tmp_dir = WT_DATA_DIR . 'ftv_pdf_tmp/';
 
-		define('_JPGRAPH_PATH', $cache_dir);
-		define('_MPDF_TEMP_PATH', $cache_dir);
-		define('_MPDF_TTFONTDATAPATH', $cache_dir);
+		define('_JPGRAPH_PATH', $tmp_dir);
+		define('_MPDF_TEMP_PATH', $tmp_dir);
+		define('_MPDF_TTFONTDATAPATH', $tmp_dir);
 
 		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf/mpdf.php');
 
@@ -105,6 +105,6 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 				<columns column-count="2" column-gap="5" />
 				<indexinsert usedivletters="on" links="on" collation="' . WT_LOCALE . '.utf8" collationgroup="' . I18N::collation() . '" />';
 			$mpdf->writeHTML($index);
-			$mpdf->Output($cache_dir . Filter::get('title') . '.pdf', 'F');
+			$mpdf->Output($tmp_dir . Filter::get('title') . '.pdf', 'F');
 	}	
 }

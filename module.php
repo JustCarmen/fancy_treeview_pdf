@@ -98,44 +98,24 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 				break;
 
 			case 'write_pdf':
-				$cache_dir = WT_DATA_DIR . 'ftv_pdf_cache/';
-				if (!file_exists($cache_dir)) {
-					File::mkdir($cache_dir);
+				$tmp_dir = WT_DATA_DIR . 'ftv_pdf_tmp/';
+				if (!file_exists($tmp_dir)) {
+					File::mkdir($tmp_dir);
 				}
 				$template = new PdfTemplate();
 				return $template->pageBody();
 				
-			case 'output_pdf':				
-				$file = WT_DATA_DIR . 'ftv_pdf_cache/' . Filter::get('title') . '.pdf';
+			case 'output_pdf':
+				$tmp_dir = WT_DATA_DIR . 'ftv_pdf_tmp/';
+				$pdf_file = Filter::get('title') . '.pdf';
 				
-				// see mpdf/includes/out.php
-				try {
-					header('Content-Description: File Transfer');
-					header('Content-Transfer-Encoding: binary');
-					header('Cache-Control: public, must-revalidate, max-age=0');
-					header('Pragma: public');
-					header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-					header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-					header('Content-Type: application/force-download');
-					header('Content-Type: application/octet-stream', false);
-					header('Content-Type: application/download', false);
-					header('Content-Type: application/pdf', false);
-					header('Content-disposition: attachment; filename="'.Filter::get('title').'"');
-
-					$filesize = filesize($file);
-					if (!isset($_SERVER['HTTP_ACCEPT_ENCODING']) OR empty($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-						// don't use length if server using compression
-						header('Content-Length: '.$filesize);
-					}
-
-					$fd = fopen($file,'rb');
-					fpassthru($fd);
-					fclose($fd);
-					unlink($file);
-					break;
-				} catch (\Exception $ex) {
-					// Something went wrong
-				}
+				// see admin_trees_download (zip archive)
+				header('Content-Type: application/pdf');
+				header('Content-Disposition: attachment; filename="' . $pdf_file . '"');
+				header('Content-length: ' . filesize($tmp_dir . $pdf_file));
+				readfile($tmp_dir . $pdf_file);
+				File::delete($tmp_dir);
+				break;
 
 			default:
 				http_response_code(404);
