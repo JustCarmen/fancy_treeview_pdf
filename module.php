@@ -99,9 +99,10 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 
 			case 'write_pdf':
 				$tmp_dir = WT_DATA_DIR . 'ftv_pdf_tmp/';
-				if (!file_exists($tmp_dir)) {
-					File::mkdir($tmp_dir);
+				if (file_exists($tmp_dir)) {
+					File::delete($tmp_dir);
 				}
+				File::mkdir($tmp_dir);
 				$template = new PdfTemplate();
 				return $template->pageBody();
 				
