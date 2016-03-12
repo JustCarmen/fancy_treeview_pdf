@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global WT_CSRF_TOKEN, FTV_PDF_ModuleName, FTV_CACHE_DIR, RootID, PageTitle, textDirection */
+/* global WT_GEDCOM, WT_CSRF_TOKEN, FTV_PDF_ModuleName, FTV_CACHE_DIR, RootID, PageTitle, textDirection */
 
 function qstring(key, url) {
 	var KeysValues, KeyValue, i;
@@ -84,9 +84,9 @@ function getPDF(content) {
 			csrf: WT_CSRF_TOKEN,
 			success: function() {
 				jQuery(".pdf-waiting-message").fadeOut("slow");
-				window.location.href = "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=output_pdf&title=" + PageTitle;
+				window.location.href = "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=output_pdf&rootid=" + RootID + "&title=" + PageTitle + "&ged=" + WT_GEDCOM;
 			}
-		})
+		});
 	});
 }
 

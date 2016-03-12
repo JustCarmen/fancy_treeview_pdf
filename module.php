@@ -107,15 +107,25 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 				return $template->pageBody();
 				
 			case 'output_pdf':
-				$tmp_dir = WT_DATA_DIR . 'ftv_pdf_tmp/';
-				$pdf_file = Filter::get('title') . '.pdf';
+				$file = WT_DATA_DIR . 'ftv_pdf_tmp/' . Filter::get('title') . '.pdf';
 				
-				// see admin_trees_download (zip archive)
-				header('Content-Type: application/pdf');
-				header('Content-Disposition: attachment; filename="' . $pdf_file . '"');
-				header('Content-length: ' . filesize($tmp_dir . $pdf_file));
-				readfile($tmp_dir . $pdf_file);
-				File::delete($tmp_dir);
+				if (file_exists($file)) {
+					ob_start();
+					header('Content-Description: File Transfer');
+					header('Content-Type: application/pdf');
+					header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+					header('Content-Transfer-Encoding: binary');
+					header('Expires: 0');
+					header('Cache-Control: must-revalidate');
+					header('Pragma: public');
+					ob_clean();
+					ob_end_flush();
+					readfile($file);
+					File::delete(dirname($file));
+				} else {
+					FlashMessages::addMessage(I18N::translate('The file %s could not be created.', basename($file)), 'danger');
+					Header('Location:' . WT_BASE_URL . 'module.php?mod=fancy_treeview&mod_action=page&rootid=' . Filter::get('rootid') . '&ged=' . Filter::get('ged'));
+				}
 				break;
 
 			default:
