@@ -56,14 +56,16 @@ function getPDF(content) {
 		// Simplify the output
 		var output = new Array;
 		jQuery("h2, .blockheader, .parents, .children-text, .children-list", content).each(function() {
-			// change image path in text output in stead of in the dom to prevent a 404 error (only seen in firebug). 
-			// We need to replace the image src path with the server file path for mPDF to catch the image.
-			var img_src = jQuery(this).find("img").attr("src");
-			var img_path = FTV_CACHE_DIR + jQuery(this).find("img").data("cachefilename");
 			var string = jQuery(this).wrap('<p>').parent().html();
-			if(typeof img_src !== 'undefined') {
-				img_src = img_src.replace(/&/g , "&amp;");
-				string = string.replace(img_src, img_path);
+			if (jQuery(this).hasClass('parents')) {
+				// change image path in text output in stead of in the dom to prevent a 404 error (only seen in firebug). 
+				// We need to replace the image src path with the server file path for mPDF to catch the image.
+				var img_src = jQuery(this).find("img").attr("src");
+				var img_path = FTV_CACHE_DIR + jQuery(this).find("img").data("cachefilename");
+				if(typeof img_src !== 'undefined') {
+					img_src = img_src.replace(/&/g , "&amp;");
+					string = string.replace(img_src, img_path);
+				}
 			}
 			output.push(string);	
 		});
