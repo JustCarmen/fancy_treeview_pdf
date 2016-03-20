@@ -33,13 +33,13 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 
 		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf/mpdf.php');
 
-		$stylesheet = file_get_contents($this->directory . '/css/style.css');
-		$stylesheet_rtl = file_get_contents($this->directory . '/css/style-rtl.css');
-		
+		$stylesheet		 = file_get_contents($this->directory . '/css/style.css');
+		$stylesheet_rtl	 = file_get_contents($this->directory . '/css/style-rtl.css');
+
 		$html = Filter::post('pdfContent');
 
-		$header = '<header>=== ' . $this->tree->getTitleHtml() . ' ===</header>';
-		$footer = '<footer>' .
+		$header	 = '<header>=== ' . $this->tree->getTitleHtml() . ' ===</header>';
+		$footer	 = '<footer>' .
 			'<table><tr>' .
 			'<td class="left">' . WT_BASE_URL . '</td>' .
 			'<td class="center">{DATE d-m-Y}</td>' .
@@ -47,64 +47,65 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 			'</tr></table>' .
 			'</footer>';
 
-			$mpdf = new mPDF();
+		$mpdf = new mPDF();
 
-			$mpdf->simpleTables = true;
-			$mpdf->shrink_tables_to_fit = 1;
+		$mpdf->simpleTables			 = true;
+		$mpdf->shrink_tables_to_fit	 = 1;
 
-			$mpdf->autoScriptToLang = true;
-			$mpdf->baseScript = 1;
-			$mpdf->autoVietnamese = true;
-			$mpdf->autoArabic = true;
+		$mpdf->autoScriptToLang	 = true;
+		$mpdf->baseScript		 = 1;
+		$mpdf->autoVietnamese	 = true;
+		$mpdf->autoArabic		 = true;
 
-			$mpdf->autoLangToFont = true;
-			if (I18N::direction() === 'rtl') {
-				$mpdf->SetDirectionality('rtl');
-			}
+		$mpdf->autoLangToFont = true;
+		if (I18N::direction() === 'rtl') {
+			$mpdf->SetDirectionality('rtl');
+		}
 
-			if (I18N::direction() === 'rtl') {
-				$mpdf->WriteHTML($stylesheet_rtl, 1);
+		if (I18N::direction() === 'rtl') {
+			$mpdf->WriteHTML($stylesheet_rtl, 1);
+		} else {
+			$mpdf->WriteHTML($stylesheet, 1);
+		}
+
+		$mpdf->setAutoTopMargin		 = 'stretch';
+		$mpdf->setAutoBottomMargin	 = 'stretch';
+		$mpdf->autoMarginPadding	 = 5;
+
+		$admin = User::find($this->tree->getPreference('WEBMASTER_USER_ID'))->getRealName();
+
+		$mpdf->setCreator($this->getTitle() . ' - a webtrees module by justcarmen.nl');
+		$mpdf->SetTitle(Filter::get('title'));
+		$mpdf->setAuthor($admin);
+
+		$mpdf->SetHTMLHeader($header);
+		$mpdf->setHTMLFooter($footer);
+
+		$html_chunks = explode("\n", $html);
+		$chunks		 = count($html_chunks);
+		$i			 = 1;
+		foreach ($html_chunks as $html_chunk) {
+			// write html body parts only (option 2);
+			if ($i === 1) {
+				// first chunk (initialize all buffers - init=true)
+				$mpdf->WriteHTML($html_chunk, 2, true, false);
+			} elseif ($i === $chunks) {
+				// last chunck (close all buffers - close=true)
+				$mpdf->WriteHTML($html_chunk, 2, false, true);
 			} else {
-				$mpdf->WriteHTML($stylesheet, 1);
+				// all other parts (keep the buffer open)
+				$mpdf->WriteHTML($html_chunk, 2, false, false);
 			}
+			$i++;
+		}
 
-			$mpdf->setAutoTopMargin = 'stretch';
-			$mpdf->setAutoBottomMargin = 'stretch';
-			$mpdf->autoMarginPadding = 5;
-
-			$admin = User::find($this->tree->getPreference('WEBMASTER_USER_ID'))->getRealName();
-
-			$mpdf->setCreator($this->getTitle() . ' - a webtrees module by justcarmen.nl');
-			$mpdf->SetTitle(Filter::get('title'));
-			$mpdf->setAuthor($admin);
-
-			$mpdf->SetHTMLHeader($header);
-			$mpdf->setHTMLFooter($footer);
-
-			$html_chunks = explode("\n", $html);
-			$chunks = count($html_chunks);
-			$i = 1;
-			foreach ($html_chunks as $html_chunk) {
-				// write html body parts only (option 2);
-				if ($i === 1) {
-					// first chunk (initialize all buffers - init=true)
-					$mpdf->WriteHTML($html_chunk, 2, true, false);
-				} elseif ($i === $chunks) {
-					// last chunck (close all buffers - close=true)
-					$mpdf->WriteHTML($html_chunk, 2, false, true);
-				} else {
-					// all other parts (keep the buffer open)
-					$mpdf->WriteHTML($html_chunk, 2, false, false);
-				}
-				$i++;
-			}
-			
-			$index = '
+		$index = '
 				<pagebreak type="next-odd" />
 				<h2>' . I18N::translate('Index') . '</h2>
 				<columns column-count="2" column-gap="5" />
 				<indexinsert usedivletters="on" links="on" collation="' . WT_LOCALE . '.utf8" collationgroup="' . I18N::collation() . '" />';
-			$mpdf->writeHTML($index);
-			$mpdf->Output($tmp_dir . Filter::get('title') . '.pdf', 'F');
-	}	
+		$mpdf->writeHTML($index);
+		$mpdf->Output($tmp_dir . Filter::get('title') . '.pdf', 'F');
+	}
+
 }

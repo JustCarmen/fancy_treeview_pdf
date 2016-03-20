@@ -23,7 +23,7 @@ use Fisharebest\Webtrees\I18N;
  * Class FancyTreeview PDF
  */
 class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
-	
+
 	/**
 	 * Get the pdf icon.
 	 * This functions is called from the Fancy Treeview Page Template
@@ -35,14 +35,14 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 			return '<a id="pdf" href="#"><i class="icon-mime-application-pdf"></i></a>';
 		}
 	}
-	
+
 	/**
 	 * Show a waiting message while generating the PDF file
 	 * This function is called from the Fancy Treeview Page Template
 	 * 
 	 * @return string
 	 */
-	public function getPdfWaitingMessage(){
+	public function getPdfWaitingMessage() {
 		return
 			'<div class="pdf-waiting-message" style="display:none">' . I18N::translate('Creating PDF file. This process may take a while. Please wait...') . '</div>';
 	}
@@ -54,11 +54,11 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 * @return type
 	 */
 	private function getSortName($person) {
-		$sortname = $person->getSortName();
-		$text1 = I18N::translateContext('Unknown given name', '…');
-		$text2 = I18N::translateContext('Unknown surname', '…');
-		$search = array(',', '@P.N.', '@N.N.');
-		$replace = array(', ', $text1, $text2);
+		$sortname	 = $person->getSortName();
+		$text1		 = I18N::translateContext('Unknown given name', '…');
+		$text2		 = I18N::translateContext('Unknown surname', '…');
+		$search		 = array(',', '@P.N.', '@N.N.');
+		$replace	 = array(', ', $text1, $text2);
 		return str_replace($search, $replace, $sortname);
 	}
 
