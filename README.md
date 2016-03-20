@@ -3,7 +3,7 @@ Fancy Treeview PDF
 
 PDF extension for the [Fancy Treeview module](https://github.com/JustCarmen/fancy_treeview)
 
-This module requires [webtrees 1.7.0](https://github.com/fisharebest/webtrees) or later AND [Fancy Treeview 1.7.4](https://github.com/JustCarmen/fancy_treeview) or later. Download the latest stable release of this module [here](https://github.com/JustCarmen/fancy_treeview/releases).
+This module requires [webtrees 1.7.0](https://github.com/fisharebest/webtrees) or later AND [Fancy Treeview 1.7.4](https://github.com/JustCarmen/fancy_treeview) or later. Download the latest stable release of this module [here](https://github.com/JustCarmen/fancy_treeview/releases/latest).
 
 Description
 -----------
