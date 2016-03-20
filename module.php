@@ -28,8 +28,8 @@ use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
 
-define('FTV_PDF_VERSION', '1.7.4-dev');
-define('FTV_COMPATIBLE_VERSION', '1.7.4-dev');
+define('FTV_PDF_VERSION', '1.7.4');
+define('FTV_COMPATIBLE_VERSION', '1.7.4');
 
 /**
  * PDF extension for the Fancy Treeview module
@@ -74,7 +74,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 
 	/** {@inheritdoc} */
 	public function getDescription() {
-		return /* I18N: Description of the module */ I18N::translate('Fancy Treeview module extension: offer your users to download a Fancy Treeview page as PDF.');
+		return /* I18N: Description of the module */ I18N::translate('Fancy Treeview module extension: offer your users to download a Fancy Treeview page as PDF.') . '<br><span class="small text-muted">' . I18N::translate('Version') . ' ' . FTV_PDF_VERSION . ' | by JustCarmen | <a href="http://www.justcarmen.nl/fancy-modules/fancy-treeview-pdf/">' . I18N::translate('Show details') . '</a></span>';
 	}
 
 	/** {@inheritdoc} */
