@@ -73,18 +73,11 @@ if (defined('FTV_PDF_COMPATIBLE_VERSION')) {
 
 class FancyTreeviewPdfModule extends FancyTreeviewModule {
 
-	/** @var boolean. */
-	var $access;
-
 	/** {@inheritdoc} */
 	public function __construct() {
 		parent::__construct();
 
 		$this->directory = WT_MODULES_DIR . $this->getName();
-
-		if ($this->getSetting('FTV_PDF_ACCESS_LEVEL', '2') >= Auth::accessLevel($this->tree)) {
-			$this->access = true;
-		}
 
 		// register the namespaces
 		$loader = new ClassLoader();
@@ -172,7 +165,13 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	public function getMenu() {
 		return null;
 	}
-
+	
+	protected function access(){
+		global $WT_TREE;
+		if ($this->getSetting('FTV_PDF_ACCESS_LEVEL', '2') >= Auth::accessLevel($WT_TREE)) {
+			return true;
+		}
+	}
 }
 
 return new FancyTreeviewPdfModule;

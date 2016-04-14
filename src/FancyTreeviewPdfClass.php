@@ -31,7 +31,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 * @return string
 	 */
 	public function getPdfIcon() {
-		if ($this->access) {
+		if ($this->access()) {
 			return '<a id="pdf" href="#"><i class="icon-mime-application-pdf"></i></a>';
 		}
 	}
@@ -92,7 +92,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 * @return inline and/or external Javascript
 	 */
 	public function includeJs($controller) {
-		if ($this->access) {
+		if ($this->access()) {
 			$controller
 				->addInlineJavascript('
 					var FTV_CACHE_DIR		= ' . json_encode($this->module()->cacheDir()) . ';
