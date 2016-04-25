@@ -38,7 +38,7 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 
 		$html = Filter::post('pdfContent');
 
-		$header	 = '<header>=== ' . $this->tree->getTitleHtml() . ' ===</header>';
+		$header	 = '<header>=== ' . $this->tree()->getTitleHtml() . ' ===</header>';
 		$footer	 = '<footer>' .
 			'<table><tr>' .
 			'<td class="left">' . WT_BASE_URL . '</td>' .
@@ -72,7 +72,7 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 		$mpdf->setAutoBottomMargin	 = 'stretch';
 		$mpdf->autoMarginPadding	 = 5;
 
-		$admin = User::find($this->tree->getPreference('WEBMASTER_USER_ID'))->getRealName();
+		$admin = User::find($this->tree()->getPreference('WEBMASTER_USER_ID'))->getRealName();
 
 		$mpdf->setCreator($this->getTitle() . ' - a webtrees module by justcarmen.nl');
 		$mpdf->SetTitle(Filter::get('title'));
