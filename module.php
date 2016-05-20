@@ -28,7 +28,6 @@ use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
 
-define('FTV_PDF_VERSION', '1.7.5-dev');
 define('FTV_COMPATIBLE_VERSION', '1.7.5-dev'); // this module works with this Fancy Treeview version or higher.
 
 /**
@@ -45,7 +44,7 @@ function intVersion($version) {
 	}
 }
 
-if (!file_exists(WT_MODULES_DIR . 'fancy_treeview') || (file_exists(WT_MODULES_DIR . 'fancy_treeview') && intVersion(FTV_COMPATIBLE_VERSION) > intVersion(FTV_VERSION))) {
+if (!file_exists(WT_MODULES_DIR . 'fancy_treeview') || (file_exists(WT_MODULES_DIR . 'fancy_treeview') && intVersion(FTV_COMPATIBLE_VERSION) > intVersion(FancyTreeviewModule::CUSTOM_VERSION))) {
 	if (Auth::isAdmin()) {
 		FlashMessages::addMessage(I18N::translate('You have installed the Fancy Treeview PDF module. This module won’t work without the correct version of the Fancy Treeview module installed and enabled. Please install and enable Fancy Treeview version %s or higher to use this module. <a href="http://www.justcarmen.nl/fancy-modules/fancy-treeview/">Click here to download the latest release</a>.', FTV_COMPATIBLE_VERSION));
 	}
@@ -61,6 +60,9 @@ if (file_exists(WT_MODULES_DIR . 'fancy_treeview') && $ftv_module_status === 'di
 }
 
 class FancyTreeviewPdfModule extends FancyTreeviewModule {
+	
+	const CUSTOM_VERSION = '1.7.5-dev';
+	const CUSTOM_WEBSITE = 'http://www.justcarmen.nl/fancy-modules/fancy-treeview-pdf/';
 
 	/** {@inheritdoc} */
 	public function __construct() {
@@ -85,7 +87,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 
 	/** {@inheritdoc} */
 	public function getDescription() {
-		return /* I18N: Description of the module */ I18N::translate('Fancy Treeview module extension: offer your users to download a Fancy Treeview page as PDF.') . '<br><span class="small text-muted">' . I18N::translate('Version') . ' ' . FTV_PDF_VERSION . ' | by JustCarmen | <a href="http://www.justcarmen.nl/fancy-modules/fancy-treeview-pdf/">' . I18N::translate('Show details') . '</a></span>';
+		return /* I18N: Description of the module */ I18N::translate('Fancy Treeview module extension: offer your users to download a Fancy Treeview page as PDF.');
 	}
 
 	/** {@inheritdoc} */
