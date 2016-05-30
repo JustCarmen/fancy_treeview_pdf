@@ -60,9 +60,6 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 		$mpdf->autoLangToFont = true;
 		if (I18N::direction() === 'rtl') {
 			$mpdf->SetDirectionality('rtl');
-		}
-
-		if (I18N::direction() === 'rtl') {
 			$mpdf->WriteHTML($stylesheet_rtl, 1);
 		} else {
 			$mpdf->WriteHTML($stylesheet, 1);
