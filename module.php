@@ -28,7 +28,7 @@ use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
 
-define('FTV_COMPATIBLE_VERSION', '1.7.5-dev'); // this module works with this Fancy Treeview version or higher.
+define('FTV_COMPATIBLE_VERSION', '1.7.5'); // this module works with this Fancy Treeview version or higher.
 
 /**
  * PDF extension for the Fancy Treeview module
@@ -61,7 +61,7 @@ if (file_exists(WT_MODULES_DIR . 'fancy_treeview') && $ftv_module_status === 'di
 
 class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	
-	const CUSTOM_VERSION = '1.7.5-dev';
+	const CUSTOM_VERSION = '1.7.5';
 	const CUSTOM_WEBSITE = 'http://www.justcarmen.nl/fancy-modules/fancy-treeview-pdf/';
 
 	/** {@inheritdoc} */
