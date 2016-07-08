@@ -73,7 +73,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	}
 
 	/**
-	 * We need the index entry tag for generation the index page in pdf
+	 * We need the index entry tag to generate the index page in pdf
 	 *
 	 * @param type $person
 	 * @param type $xref
