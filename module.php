@@ -61,7 +61,7 @@ if (file_exists(WT_MODULES_DIR . 'fancy_treeview') && $ftv_module_status === 'di
 
 class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	
-	const CUSTOM_VERSION = '1.7.5';
+	const CUSTOM_VERSION = '1.7.7-dev';
 	const CUSTOM_WEBSITE = 'http://www.justcarmen.nl/fancy-modules/fancy-treeview-pdf/';
 
 	/** {@inheritdoc} */
