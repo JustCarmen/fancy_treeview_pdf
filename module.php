@@ -28,19 +28,23 @@ use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
 
-define('FTV_COMPATIBLE_VERSION', '1.7.5'); // this module works with this Fancy Treeview version or higher.
+const FTV_COMPATIBLE_VERSION = '1.7.5'; // this module works with this Fancy Treeview version or higher.
 
 /**
  * PDF extension for the Fancy Treeview module
  * 
  * First check if the correct version of the Fancy Treeview module is installed and enabled (Class won't exist if the module hasn't been installed or has been disabled.
  */
-function intVersion($version) {
-	$int_version = (int)str_replace(".", "", str_replace("-dev", "", $version));
-	if ($int_version > 999) {
-		return $int_version/10; 
-	} else {
-		return $int_version;
+
+// prevent double declaration. Function is used in other FTV-extensions
+if (!function_exists('intVersion')) {
+	function intVersion($version) {
+		$int_version = (int)str_replace(".", "", str_replace("-dev", "", $version));
+		if ($int_version > 999) {
+			return $int_version/10; 
+		} else {
+			return $int_version;
+		}
 	}
 }
 
