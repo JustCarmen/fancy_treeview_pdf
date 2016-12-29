@@ -105,6 +105,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 			case 'admin_config':
 				if (Filter::postBool('save') && Filter::checkCsrf()) {
 					$this->setSetting('FTV_PDF_ACCESS_LEVEL', Filter::postInteger('NEW_FTV_PDF_ACCESS_LEVEL'));
+					$this->setSetting('FTV_PDF_TAB', Filter::postBool('NEW_FTV_PDF_TAB'));
 					Log::addConfigurationLog($this->getTitle() . ' config updated');
 				}
 				$template = new AdminTemplate;
@@ -164,6 +165,12 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	protected function access(){
 		global $WT_TREE;
 		if ($this->getSetting('FTV_PDF_ACCESS_LEVEL', '2') >= Auth::accessLevel($WT_TREE)) {
+			return true;
+		}
+	}
+	
+	protected function tab() {
+		if ($this->getSetting('FTV_PDF_TAB')) {
 			return true;
 		}
 	}

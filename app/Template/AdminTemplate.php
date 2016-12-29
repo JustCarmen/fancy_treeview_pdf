@@ -51,12 +51,32 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 		<form class="form-inline" method="post">
 			<?php echo Filter::getCsrf() ?>
 			<input type="hidden" name="save" value="1">
-			<!-- SHOW PDF -->
+			<!-- PDF ACCESS LEVEL -->
 			<div class="form-group">
-				<label class="control-label">
+				<label class="control-label col-sm-4">
 					<?php echo I18N::translate('Access level') ?>
 				</label>
-				<?php echo FunctionsEdit::editFieldAccessLevel('NEW_FTV_PDF_ACCESS_LEVEL', $this->getSetting('FTV_PDF_ACCESS_LEVEL'), 'class="form-control"') ?>
+				<div class="col-sm-4">
+					<?php echo FunctionsEdit::editFieldAccessLevel('NEW_FTV_PDF_ACCESS_LEVEL', $this->getSetting('FTV_PDF_ACCESS_LEVEL'), 'class="form-control"') ?>
+				</div>
+				<div class="col-sm-4">
+			</div>
+			<!-- PDF TAB ICON -->
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					<?php echo I18N::translate('Show a PDF icon in the Fancy Treeview tab') ?>
+				</label>
+				<div class="col-sm-8">
+					<?php
+					if (!$this->getSetting('FTV_PDF_TAB')) {
+						$this->setSetting('FTV_PDF_TAB', 0);
+					}
+					?>
+					<?php echo FunctionsEdit::editFieldYesNo('NEW_FTV_PDF_TAB', $this->getSetting('FTV_PDF_TAB'), 'class="radio-inline"') ?>
+				</div>
+				<p class="col-sm-8 col-sm-offset-4 small text-muted">
+					<?php echo /* I18N: Help text for the “Show a PDF icon in the Fancy Treeview tab” configuration setting */ I18N::translate('By default the PDF icon is visible on the Fancy Treeview page. If you enable this option, a PDF icon is also displayed on the Fancy Treeview tab on the individual page.') ?>
+				</p>
 			</div>
 			<!-- BUTTONS -->
 			<button class="btn btn-primary" type="submit">

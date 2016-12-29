@@ -17,6 +17,7 @@
 namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf;
 
 use Fisharebest\Webtrees\Controller\BaseController;
+use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\I18N;
 
 /**
@@ -31,7 +32,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 * @return string
 	 */
 	public function getPdfIcon() {
-		if ($this->access()) {
+		if ($this->access() && $this->tab()) {
 			return '<a id="pdf" href="#"><i class="icon-mime-application-pdf"></i></a>';
 		}
 	}
@@ -91,14 +92,25 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 *
 	 * @return inline and/or external Javascript
 	 */
-	public function includeJs($controller) {
+	public function includeJs($controller, $tab = false) {
 		if ($this->access()) {
-			$controller
-				->addInlineJavascript('
-					var FTV_CACHE_DIR		= ' . json_encode($this->module()->cacheDir()) . ';
-					var FTV_PDF_ModuleName	= "' . $this->getName() . '";
-				', BaseController::JS_PRIORITY_HIGH)
-				->addExternalJavascript($this->directory . '/js/pdf.js');
+			if ($tab && $this->tab()) {
+				return
+					'<script>' .
+						'var FTV_CACHE_DIR		= ' . json_encode($this->module()->cacheDir()) . '; ' .
+						'var FTV_PDF_ModuleName	= "' . $this->getName() . '";' .
+						'var PageTitle			= "' . urlencode(strip_tags($controller->getPageTitle())) . '";' .
+						'var RootID				= "' . Filter::get('pid', WT_REGEX_XREF) . '";' .
+					'</script>' .
+					'<script src="' . WT_STATIC_URL . $this->directory . '/js/pdf.js" defer="defer"></script>';
+			} else {
+				$controller
+					->addInlineJavascript('
+						var FTV_CACHE_DIR		= ' . json_encode($this->module()->cacheDir()) . ';
+						var FTV_PDF_ModuleName	= "' . $this->getName() . '";
+					', BaseController::JS_PRIORITY_HIGH)
+					->addExternalJavascript($this->directory . '/js/pdf.js');
+			}
 		}
 	}
 
