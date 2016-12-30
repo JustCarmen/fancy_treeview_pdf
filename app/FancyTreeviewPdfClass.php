@@ -32,7 +32,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 * @return string
 	 */
 	public function getPdfIcon() {
-		if ($this->access() && $this->tab()) {
+		if ($this->access()) {
 			return '<a id="pdf" href="#"><i class="icon-mime-application-pdf"></i></a>';
 		}
 	}
