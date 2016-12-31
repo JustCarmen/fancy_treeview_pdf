@@ -75,7 +75,7 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 					<?php echo FunctionsEdit::editFieldYesNo('NEW_FTV_PDF_TAB', $this->getSetting('FTV_PDF_TAB'), 'class="radio-inline"') ?>
 				</div>
 				<p class="col-sm-8 col-sm-offset-4 small text-muted">
-					<?php echo /* I18N: Help text for the “Show a PDF icon in the Fancy Treeview tab” configuration setting */ I18N::translate('By default the PDF icon is visible on the Fancy Treeview page. If you enable this option, a PDF icon is also displayed on the Fancy Treeview tab on the individual page.') ?>
+					<?php echo /* I18N: Help text for the “Show a PDF icon in the Fancy Treeview tab” configuration setting */ I18N::translate('By default the PDF icon is visible on the Fancy Treeview page. If you enable this option, a PDF icon is also displayed in the Fancy Treeview tab on the individual page.') ?>
 				</p>
 			</div>
 			<!-- BUTTONS -->
