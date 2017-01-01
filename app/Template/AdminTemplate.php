@@ -48,7 +48,7 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 			<li class="active"><?php echo $controller->getPageTitle() ?></li>
 		</ol>
 		<h2><?php echo $controller->getPageTitle() ?></h2>
-		<form class="form-inline" method="post">
+		<form class="form-horizontal" method="post">
 			<?php echo Filter::getCsrf() ?>
 			<input type="hidden" name="save" value="1">
 			<!-- PDF ACCESS LEVEL -->
@@ -56,10 +56,9 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 				<label class="control-label col-sm-4">
 					<?php echo I18N::translate('Access level') ?>
 				</label>
-				<div class="col-sm-4">
+				<div class="col-sm-8">
 					<?php echo FunctionsEdit::editFieldAccessLevel('NEW_FTV_PDF_ACCESS_LEVEL', $this->getSetting('FTV_PDF_ACCESS_LEVEL'), 'class="form-control"') ?>
 				</div>
-				<div class="col-sm-4">
 			</div>
 			<!-- PDF TAB ICON -->
 			<div class="form-group">
