@@ -35,17 +35,18 @@ const FTV_COMPATIBLE_VERSION = '1.7.5'; // this module works with this Fancy Tre
  * 
  * First check if the correct version of the Fancy Treeview module is installed and enabled (Class won't exist if the module hasn't been installed or has been disabled.
  */
-
 // prevent double declaration. Function is used in other FTV-extensions
 if (!function_exists('intVersion')) {
+
 	function intVersion($version) {
-		$int_version = (int)str_replace(".", "", str_replace("-dev", "", $version));
+		$int_version = (int) str_replace(".", "", str_replace("-dev", "", $version));
 		if ($int_version > 999) {
-			return $int_version/10; 
+			return $int_version / 10;
 		} else {
 			return $int_version;
 		}
 	}
+
 }
 
 if (!file_exists(WT_MODULES_DIR . 'fancy_treeview') || (file_exists(WT_MODULES_DIR . 'fancy_treeview') && intVersion(FTV_COMPATIBLE_VERSION) > intVersion(FancyTreeviewModule::CUSTOM_VERSION))) {
@@ -64,9 +65,9 @@ if (file_exists(WT_MODULES_DIR . 'fancy_treeview') && $ftv_module_status === 'di
 }
 
 class FancyTreeviewPdfModule extends FancyTreeviewModule {
-	
-	const CUSTOM_VERSION = '1.7.7-dev';
-	const CUSTOM_WEBSITE = 'http://www.justcarmen.nl/fancy-modules/fancy-treeview-pdf/';
+
+	const CUSTOM_VERSION	 = '1.7.7-dev';
+	const CUSTOM_WEBSITE	 = 'http://www.justcarmen.nl/fancy-modules/fancy-treeview-pdf/';
 
 	/** {@inheritdoc} */
 	public function __construct() {
@@ -161,20 +162,20 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	public function getMenu() {
 		return null;
 	}
-	
-	protected function access(){
+
+	protected function access() {
 		global $WT_TREE;
 		if ($this->getSetting('FTV_PDF_ACCESS_LEVEL', '2') >= Auth::accessLevel($WT_TREE)) {
 			return true;
 		}
 	}
-	
+
 	protected function tab() {
 		if ($this->getSetting('FTV_PDF_TAB')) {
 			return true;
 		}
 	}
-	
+
 }
 
 return new FancyTreeviewPdfModule;

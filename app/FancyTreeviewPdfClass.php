@@ -97,10 +97,10 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 			if ($tab && $this->tab()) {
 				return
 					'<script>' .
-						'var FTV_CACHE_DIR		= ' . json_encode($this->module()->cacheDir()) . '; ' .
-						'var FTV_PDF_ModuleName	= "' . $this->getName() . '";' .
-						'var PageTitle			= "' . urlencode(strip_tags($controller->getPageTitle())) . '";' .
-						'var RootID				= "' . Filter::get('pid', WT_REGEX_XREF) . '";' .
+					'var FTV_CACHE_DIR		= ' . json_encode($this->module()->cacheDir()) . '; ' .
+					'var FTV_PDF_ModuleName	= "' . $this->getName() . '";' .
+					'var PageTitle			= "' . urlencode(strip_tags($controller->getPageTitle())) . '";' .
+					'var RootID				= "' . Filter::get('pid', WT_REGEX_XREF) . '";' .
 					'</script>' .
 					'<script src="' . WT_STATIC_URL . $this->directory . '/js/pdf.js" defer="defer"></script>';
 			} else {

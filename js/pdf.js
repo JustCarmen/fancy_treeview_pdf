@@ -39,7 +39,7 @@ jQuery("#pdf").click(function() {
 function createPDF() {
 	// initialize the content (stays in memory)
 	var content = jQuery('<div id="pdf-content">')
-	
+
 	content.append(jQuery("#fancy_treeview-page").clone());
 
 	if (jQuery("#btn_next").length > 0) {
@@ -62,19 +62,19 @@ function getPDF(content) {
 				// We need to replace the image src path with the server file path for mPDF to catch the image.
 				var img_src = jQuery(this).find("img").attr("src");
 				var img_path = FTV_CACHE_DIR + jQuery(this).find("img").data("cachefilename");
-				if(typeof img_src !== 'undefined') {
-					img_src = img_src.replace(/&/g , "&amp;");
+				if (typeof img_src !== 'undefined') {
+					img_src = img_src.replace(/&/g, "&amp;");
 					string = string.replace(img_src, img_path);
 				}
 			}
-			output.push(string);	
+			output.push(string);
 		});
 
 		var html = '';
 		for (var i = 0; i < output.length; i++) {
 			html += output[i];
 		}
-		
+
 		jQuery.ajax({
 			type: "POST",
 			url: "module.php?mod=" + FTV_PDF_ModuleName + "&mod_action=write_pdf&rootid=" + RootID + "&title=" + PageTitle,
