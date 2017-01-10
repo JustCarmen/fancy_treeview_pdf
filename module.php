@@ -33,30 +33,41 @@ use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
  * 
  */
 const FTV_COMPATIBLE_VERSION = '1.7.9';
+
 /**
  * PDF extension for the Fancy Treeview module
  * 
  * First check if the correct version of the Fancy Treeview module is installed and enabled (Class won't exist if the module hasn't been installed or has been disabled.
+ * The function to check the correct version is moved to the main module since version 1.7.9, so if the function doesn't exist there is an older version of Fancy Treeview installed.
  */
+$message1 = I18N::translate('You have installed the Fancy Treeview PDF module. This module won’t work without the correct version of the Fancy Treeview module installed and enabled. Please install and enable Fancy Treeview version %s or higher to use this module. <a href="http://www.justcarmen.nl/fancy-modules/fancy-treeview/">Click here to download the latest release</a>.', FTV_COMPATIBLE_VERSION);
 
-if (!file_exists(WT_MODULES_DIR . 'fancy_treeview') || (file_exists(WT_MODULES_DIR . 'fancy_treeview') && str_replace(".", "", FTV_COMPATIBLE_VERSION) > FancyTreeviewModule::intVersion())) {
-	if (Auth::isAdmin()) {
-		FlashMessages::addMessage(I18N::translate('You have installed the Fancy Treeview PDF module. This module won’t work without the correct version of the Fancy Treeview module installed and enabled. Please install and enable Fancy Treeview version %s or higher to use this module. <a href="http://www.justcarmen.nl/fancy-modules/fancy-treeview/">Click here to download the latest release</a>.', FTV_COMPATIBLE_VERSION));
+$message2 = I18N::translate('You have installed the Fancy Treeview PDF module. This module won’t work without the Fancy Treeview module enabled. Please enable Fancy Treeview to use this module.');
+
+if (method_exists('JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule', 'intVersion')) {
+	if (!file_exists(WT_MODULES_DIR . 'fancy_treeview') || (file_exists(WT_MODULES_DIR . 'fancy_treeview') && str_replace(".", "", FTV_COMPATIBLE_VERSION) > FancyTreeviewModule::intVersion())) {
+		if (Auth::isAdmin()) {
+			FlashMessages::addMessage($message1);
+		}
+		return;
 	}
-	return;
+} else {
+	if (Auth::isAdmin()) {
+		FlashMessages::addMessage($message1);
+	}
 }
 
 $ftv_module_status = Database::prepare("SELECT status FROM `##module` WHERE module_name = 'fancy_treeview'")->fetchOne();
 if (file_exists(WT_MODULES_DIR . 'fancy_treeview') && $ftv_module_status === 'disabled') {
 	if (Auth::isAdmin()) {
-		FlashMessages::addMessage(I18N::translate('You have installed the Fancy Treeview PDF module. This module won’t work without the Fancy Treeview module enabled. Please enable Fancy Treeview to use this module.'));
+		FlashMessages::addMessage($message2);
 	}
 	return;
 }
 
 class FancyTreeviewPdfModule extends FancyTreeviewModule {
 
-	const CUSTOM_VERSION	 = '1.7.9';
+	const CUSTOM_VERSION	 = '1.7.9.1';
 	const CUSTOM_WEBSITE	 = 'http://www.justcarmen.nl/fancy-modules/fancy-treeview-pdf/';
 
 	/** {@inheritdoc} */
