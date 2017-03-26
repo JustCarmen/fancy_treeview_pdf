@@ -43,27 +43,27 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 		?>
 		<!-- ADMIN PAGE CONTENT -->
 		<ol class="breadcrumb small">
-			<li><a href="admin.php"><?php echo I18N::translate('Control panel') ?></a></li>
-			<li><a href="admin_modules.php"><?php echo I18N::translate('Module administration') ?></a></li>
-			<li class="active"><?php echo $controller->getPageTitle() ?></li>
+			<li><a href="admin.php"><?= I18N::translate('Control panel') ?></a></li>
+			<li><a href="admin_modules.php"><?= I18N::translate('Module administration') ?></a></li>
+			<li class="active"><?= $controller->getPageTitle() ?></li>
 		</ol>
-		<h2><?php echo $controller->getPageTitle() ?></h2>
+		<h2><?= $controller->getPageTitle() ?></h2>
 		<form class="form-horizontal" method="post">
-			<?php echo Filter::getCsrf() ?>
+			<?= Filter::getCsrf() ?>
 			<input type="hidden" name="save" value="1">
 			<!-- PDF ACCESS LEVEL -->
 			<div class="form-group">
 				<label class="control-label col-sm-4">
-					<?php echo I18N::translate('Access level') ?>
+					<?= I18N::translate('Access level') ?>
 				</label>
 				<div class="col-sm-8">
-					<?php echo FunctionsEdit::editFieldAccessLevel('NEW_FTV_PDF_ACCESS_LEVEL', $this->getSetting('FTV_PDF_ACCESS_LEVEL'), 'class="form-control"') ?>
+					<?= FunctionsEdit::editFieldAccessLevel('NEW_FTV_PDF_ACCESS_LEVEL', $this->getSetting('FTV_PDF_ACCESS_LEVEL'), 'class="form-control"') ?>
 				</div>
 			</div>
 			<!-- PDF TAB ICON -->
 			<div class="form-group">
 				<label class="control-label col-sm-4">
-					<?php echo I18N::translate('Show a PDF icon in the Fancy Treeview tab') ?>
+					<?= I18N::translate('Show a PDF icon in the Fancy Treeview tab') ?>
 				</label>
 				<div class="col-sm-8">
 					<?php
@@ -71,16 +71,16 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 						$this->setSetting('FTV_PDF_TAB', 0);
 					}
 					?>
-					<?php echo FunctionsEdit::editFieldYesNo('NEW_FTV_PDF_TAB', $this->getSetting('FTV_PDF_TAB'), 'class="radio-inline"') ?>
+					<?= FunctionsEdit::editFieldYesNo('NEW_FTV_PDF_TAB', $this->getSetting('FTV_PDF_TAB'), 'class="radio-inline"') ?>
 				</div>
 				<p class="col-sm-8 col-sm-offset-4 small text-muted">
-					<?php echo /* I18N: Help text for the “Show a PDF icon in the Fancy Treeview tab” configuration setting */ I18N::translate('By default the PDF icon is visible on the Fancy Treeview page. If you enable this option, a PDF icon is also displayed in the Fancy Treeview tab on the individual page.') ?>
+					<?= /* I18N: Help text for the “Show a PDF icon in the Fancy Treeview tab” configuration setting */ I18N::translate('By default the PDF icon is visible on the Fancy Treeview page. If you enable this option, a PDF icon is also displayed in the Fancy Treeview tab on the individual page.') ?>
 				</p>
 			</div>
 			<!-- BUTTONS -->
 			<button class="btn btn-primary" type="submit">
 				<i class="fa fa-check"></i>
-				<?php echo I18N::translate('save') ?>
+				<?= I18N::translate('save') ?>
 			</button>
 		</form>
 		<?php
