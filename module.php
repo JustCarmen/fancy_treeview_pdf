@@ -46,20 +46,20 @@ $message2 = I18N::translate('You have installed the Fancy Treeview PDF module. T
 
 if (method_exists('JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule', 'intVersion')) {
 	if (!file_exists(WT_MODULES_DIR . 'fancy_treeview') || (file_exists(WT_MODULES_DIR . 'fancy_treeview') && str_replace(".", "", FTV_COMPATIBLE_VERSION) > FancyTreeviewModule::intVersion())) {
-		if (Auth::isAdmin()) {
+		if (Auth::isAdmin() && WT_SCRIPT_NAME === 'admin_modules.php') {
 			FlashMessages::addMessage($message1);
 		}
 		return;
 	}
 } else {
-	if (Auth::isAdmin()) {
+	if (Auth::isAdmin() && WT_SCRIPT_NAME === 'admin_modules.php') {
 		FlashMessages::addMessage($message1);
 	}
 }
 
 $ftv_module_status = Database::prepare("SELECT status FROM `##module` WHERE module_name = 'fancy_treeview'")->fetchOne();
 if (file_exists(WT_MODULES_DIR . 'fancy_treeview') && $ftv_module_status === 'disabled') {
-	if (Auth::isAdmin()) {
+	if (Auth::isAdmin() && WT_SCRIPT_NAME === 'admin_modules.php') {
 		FlashMessages::addMessage($message2);
 	}
 	return;
