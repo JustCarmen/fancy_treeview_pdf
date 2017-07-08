@@ -13,36 +13,43 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 /* Font */
 body {
-  font-family: "DejaVu Sans";
-  font-size: 9pt;
+    font-family: "DejaVu Sans";
+    font-size: 9pt;
 }
 
 /* Header */
 header {
-  text-align: center;
+	text-align: center;
 }
 
 /* Footer */
-footer table {
-  width: 100%;
-}
-footer td {
-  font-size: 8pt;
-  width: 33%;
-}
-footer td.center {
-  text-align: center;
-}
-footer td.right {
-  text-align: right;
+footer {
+
+  table {
+    width: 100%;
+  }
+
+  td {
+    font-size: 8pt;
+    width: 33%;
+    
+    &.center {
+      text-align: center;
+    }
+    
+    &.right {
+      @include text-align(right);
+    }
+  }
 }
 
 /* Page */
 h2 {
-  text-align: center;
-  font-size: 13pt;
+	text-align: center;
+  font-size: 13pt
 }
 
 /* Blockheaders */
@@ -52,41 +59,47 @@ h2 {
   font-size: 11pt;
   font-weight: bold;
   margin-top: 20px;
-  page-break-after: avoid;
+  page-break-after:avoid;
 }
 
 /* family-block */
 table {
-  border-collapse: collapse;
-  table-layout: fixed;
-  width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	width: 100%;
 }
 
 td {
-  vertical-align: top;
+	vertical-align: top;
 }
 
 .parents {
-  margin-top: 10px;
-}
-.parents .index {
-  width: 45px;
-}
-.name-first {
-  font-weight: bold;
-}
-.parents .image {
-  padding-right: 10px;
+    margin-top: 10px;
+
+    .index {
+      width: 45px;
+    }
+    
+    @at-root .name-first {
+      font-weight: bold;
+    }
+    
+    .image {
+        padding-right: 10px;
+    }
 }
 
-.children .children-data {
-  margin: 10px 0 5px 45px;
-}
-.children .children-list {
-  margin-left: 45px;
-}
-.children .children-list .index {
-  width: 60px;
+.children {
+  .children-data {
+    @include margin(10px, 0, 5px, 45px);
+  }
+
+  .children-list {
+    margin-left: 45px;
+
+    .index {
+     width: 60px;
+    }
+  }
 }
 
-/*# sourceMappingURL=style.css.map */

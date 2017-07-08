@@ -33,7 +33,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 */
 	public function getPdfIcon() {
 		if ($this->access()) {
-			return '<a id="pdf" href="#"><i class="icon-mime-application-pdf"></i></a>';
+			return '<div class="pdf-icon col-sm-auto align-self-end text-right"><a id="pdf" href="#"><i class="icon-mime-application-pdf"></i></a></div>';
 		}
 	}
 
@@ -45,7 +45,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 */
 	public function getPdfWaitingMessage() {
 		return
-			'<div class="pdf-waiting-message" style="display:none">' . I18N::translate('Creating PDF file. This process may take a while. Please wait...') . '</div>';
+			'<div class="pdf-waiting-message text-primary small text-center my-2">' . I18N::translate('Creating PDF file. This process may take a while. Please wait...') . '</div>';
 	}
 
 	/**
@@ -94,21 +94,16 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
 	 */
 	public function includeJs($controller, $tab = false) {
 		if ($this->access()) {
+      $scriptvars =
+        'var FTV_CACHE_DIR        = ' . json_encode($this->module()->cacheDir()) . '; ' .
+        'var FTV_PDF_PAGE_TITLE		= "' . urlencode(strip_tags($controller->getPageTitle())) . '";';
 			if ($tab && $this->tab()) {
 				return
-					'<script>' .
-					'var FTV_CACHE_DIR		= ' . json_encode($this->module()->cacheDir()) . '; ' .
-					'var FTV_PDF_ModuleName	= "' . $this->getName() . '";' .
-					'var PageTitle			= "' . urlencode(strip_tags($controller->getPageTitle())) . '";' .
-					'var RootID				= "' . Filter::get('pid', WT_REGEX_XREF) . '";' .
-					'</script>' .
+					'<script>' . $scriptvars . '</script>' .
 					'<script src="' . WT_STATIC_URL . $this->directory . '/js/pdf.js" defer="defer"></script>';
 			} else {
 				$controller
-					->addInlineJavascript('
-						var FTV_CACHE_DIR		= ' . json_encode($this->module()->cacheDir()) . ';
-						var FTV_PDF_ModuleName	= "' . $this->getName() . '";
-					', BaseController::JS_PRIORITY_HIGH)
+					->addInlineJavascript($scriptvars, BaseController::JS_PRIORITY_HIGH)
 					->addExternalJavascript($this->directory . '/js/pdf.js');
 			}
 		}

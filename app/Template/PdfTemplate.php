@@ -1,7 +1,6 @@
 <?php
 /**
  * webtrees: online genealogy
- * Copyright (C) 2017 webtrees development team
  * Copyright (C) 2017 JustCarmen
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,18 +19,14 @@ use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\User;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\FancyTreeviewPdfClass;
-use mPDF;
+use Mpdf\Mpdf;
 
 class PdfTemplate extends FancyTreeviewPdfClass {
 
 	public function pageBody() {
 		$tmp_dir = WT_DATA_DIR . 'ftv_pdf_tmp/';
 
-		define('_JPGRAPH_PATH', $tmp_dir);
-		define('_MPDF_TEMP_PATH', $tmp_dir);
-		define('_MPDF_TTFONTDATAPATH', $tmp_dir);
-
-		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf/mpdf.php');
+		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf/vendor/autoload.php');
 
 		$stylesheet		 = file_get_contents($this->directory . '/css/style.css');
 		$stylesheet_rtl	 = file_get_contents($this->directory . '/css/style-rtl.css');
@@ -47,27 +42,23 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 			'</tr></table>' .
 			'</footer>';
 
-		$mpdf = new mPDF();
+		$mpdf = new Mpdf([
+        'tempDir'               => $tmp_dir,
+        'simpleTables'          => true,
+        'shrink_tables_to_fit'  => 1,
+        'autoScriptToLang'      => true,
+        'autoLangToFont'        => true,
+        'setAutoTopMargin'      => 'stretch',
+        'setAutoBottomMargin'   => 'stretch',
+        'autoMarginPadding'     => 5
+      ]);
 
-		$mpdf->simpleTables			 = true;
-		$mpdf->shrink_tables_to_fit	 = 1;
-
-		$mpdf->autoScriptToLang	 = true;
-		$mpdf->baseScript		 = 1;
-		$mpdf->autoVietnamese	 = true;
-		$mpdf->autoArabic		 = true;
-
-		$mpdf->autoLangToFont = true;
 		if (I18N::direction() === 'rtl') {
 			$mpdf->SetDirectionality('rtl');
 			$mpdf->WriteHTML($stylesheet_rtl, 1);
 		} else {
 			$mpdf->WriteHTML($stylesheet, 1);
 		}
-
-		$mpdf->setAutoTopMargin		 = 'stretch';
-		$mpdf->setAutoBottomMargin	 = 'stretch';
-		$mpdf->autoMarginPadding	 = 5;
 
 		$admin = User::find($this->tree()->getPreference('WEBMASTER_USER_ID'))->getRealName();
 

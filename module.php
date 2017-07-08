@@ -32,7 +32,7 @@ use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
  * This module works with Fancy Treeview version 1.7.9 or higher.
  * 
  */
-const FTV_COMPATIBLE_VERSION = '1.7.9';
+const FTV_COMPATIBLE_VERSION = '1.8.0-dev';
 
 /**
  * PDF extension for the Fancy Treeview module
@@ -74,7 +74,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	public function __construct() {
 		parent::__construct();
 
-		$this->directory = WT_MODULES_DIR . $this->getName();
+		$this->directory = WT_STATIC_URL . WT_MODULES_DIR . $this->getName();
 
 		// register the namespaces
 		$loader = new ClassLoader();
@@ -106,15 +106,17 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 		switch ($mod_action) {
 			case 'admin_config':
 				if (Filter::postBool('save') && Filter::checkCsrf()) {
-					$this->setSetting('FTV_PDF_ACCESS_LEVEL', Filter::postInteger('NEW_FTV_PDF_ACCESS_LEVEL'));
-					$this->setSetting('FTV_PDF_TAB', Filter::postBool('NEW_FTV_PDF_TAB'));
+					$this->setPreference('FTV_PDF_ACCESS_LEVEL', Filter::postInteger('NEW_FTV_PDF_ACCESS_LEVEL'));
+					$this->setPreference('FTV_PDF_TAB', Filter::postBool('NEW_FTV_PDF_TAB'));
 					Log::addConfigurationLog($this->getTitle() . ' config updated');
+
+          FlashMessages::addMessage(I18N::translate('The settings for this module are saved'), 'success');
 				}
 				$template = new AdminTemplate;
 				return $template->pageContent();
 
 			case 'full_pdf':
-				echo $this->module()->printPage(0);
+				echo $this->module()->printPage();
 				break;
 
 			case 'write_pdf':
@@ -166,13 +168,13 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 
 	protected function access() {
 		global $WT_TREE;
-		if ($this->getSetting('FTV_PDF_ACCESS_LEVEL', '2') >= Auth::accessLevel($WT_TREE)) {
+		if ($this->getPreference('FTV_PDF_ACCESS_LEVEL', '2') >= Auth::accessLevel($WT_TREE)) {
 			return true;
 		}
 	}
 
 	protected function tab() {
-		if ($this->getSetting('FTV_PDF_TAB')) {
+		if ($this->getPreference('FTV_PDF_TAB')) {
 			return true;
 		}
 	}

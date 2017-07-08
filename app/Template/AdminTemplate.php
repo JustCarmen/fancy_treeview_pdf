@@ -17,6 +17,7 @@
 namespace JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template;
 
 use Fisharebest\Webtrees\Auth;
+use Fisharebest\Webtrees\Bootstrap4;
 use Fisharebest\Webtrees\Controller\PageController;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\Functions\FunctionsEdit;
@@ -40,49 +41,53 @@ class AdminTemplate extends FancyTreeviewPdfClass {
 	}
 
 	private function pageBody(PageController $controller) {
+		
+		echo Bootstrap4::breadcrumbs([
+			'admin.php'			 => I18N::translate('Control panel'),
+			'admin_modules.php'	 => I18N::translate('Module administration'),
+			], $controller->getPageTitle());
 		?>
-		<!-- ADMIN PAGE CONTENT -->
-		<ol class="breadcrumb small">
-			<li><a href="admin.php"><?= I18N::translate('Control panel') ?></a></li>
-			<li><a href="admin_modules.php"><?= I18N::translate('Module administration') ?></a></li>
-			<li class="active"><?= $controller->getPageTitle() ?></li>
-		</ol>
-		<h2><?= $controller->getPageTitle() ?></h2>
-		<form class="form-horizontal" method="post">
-			<?= Filter::getCsrf() ?>
-			<input type="hidden" name="save" value="1">
-			<!-- PDF ACCESS LEVEL -->
-			<div class="form-group">
-				<label class="control-label col-sm-4">
-					<?= I18N::translate('Access level') ?>
-				</label>
-				<div class="col-sm-8">
-					<?= FunctionsEdit::editFieldAccessLevel('NEW_FTV_PDF_ACCESS_LEVEL', $this->getSetting('FTV_PDF_ACCESS_LEVEL'), 'class="form-control"') ?>
+
+		<div class="fancy-treeview fancy-treeview-pdf">
+      <div class="fancy-treeview-pdf-admin">
+			<h1><?= $controller->getPageTitle() ?></h1>
+			<form class="form-horizontal" method="post">
+				<?= Filter::getCsrf() ?>
+				<input type="hidden" name="save" value="1">
+				<!-- PDF ACCESS LEVEL -->
+				<div class="row form-group">
+					<label class="col-form-label col-sm-4">
+						<?= I18N::translate('Access level') ?>
+					</label>
+					<div class="col-sm-8">
+						<?= Bootstrap4::select(FunctionsEdit::optionsAccessLevels(), $this->getPreference('FTV_PDF_ACCESS_LEVEL'), ['name' => 'NEW_FTV_PDF_ACCESS_LEVEL']) ?>
+					</div>
 				</div>
-			</div>
-			<!-- PDF TAB ICON -->
-			<div class="form-group">
-				<label class="control-label col-sm-4">
-					<?= I18N::translate('Show a PDF icon in the Fancy Treeview tab') ?>
-				</label>
-				<div class="col-sm-8">
-					<?php
-					if (!$this->getSetting('FTV_PDF_TAB')) {
-						$this->setSetting('FTV_PDF_TAB', 0);
-					}
-					?>
-					<?= FunctionsEdit::editFieldYesNo('NEW_FTV_PDF_TAB', $this->getSetting('FTV_PDF_TAB'), 'class="radio-inline"') ?>
+				<!-- PDF TAB ICON -->
+				<div class="row form-group">
+					<label class="col-form-label col-sm-4">
+						<?= I18N::translate('Show a PDF icon in the Fancy Treeview tab') ?>
+					</label>
+					<div class="col-sm-8">
+						<?php
+						if (!$this->getPreference('FTV_PDF_TAB')) {
+							$this->setPreference('FTV_PDF_TAB', 0);
+						}
+						?>
+						<?= Bootstrap4::radioButtons('NEW_FTV_PDF_TAB', FunctionsEdit::optionsNoYes(), $this->getPreference('FTV_PDF_TAB'), true) ?>
+					</div>
+					<p class="col-sm-8 offset-sm-4 small text-muted">
+						<?= /* I18N: Help text for the “Show a PDF icon in the Fancy Treeview tab” configuration setting */ I18N::translate('By default the PDF icon is visible on the Fancy Treeview page. If you enable this option, a PDF icon is also displayed in the Fancy Treeview tab on the individual page.') ?>
+					</p>
 				</div>
-				<p class="col-sm-8 col-sm-offset-4 small text-muted">
-					<?= /* I18N: Help text for the “Show a PDF icon in the Fancy Treeview tab” configuration setting */ I18N::translate('By default the PDF icon is visible on the Fancy Treeview page. If you enable this option, a PDF icon is also displayed in the Fancy Treeview tab on the individual page.') ?>
-				</p>
-			</div>
-			<!-- BUTTONS -->
-			<button class="btn btn-primary" type="submit">
-				<i class="fa fa-check"></i>
-				<?= I18N::translate('save') ?>
-			</button>
-		</form>
+				<!-- BUTTONS -->
+				<button class="btn btn-primary" type="submit">
+					<i class="fa fa-check"></i>
+					<?= I18N::translate('save') ?>
+				</button>
+			</form>
+      </div>
+		</div>
 		<?php
 	}
 
