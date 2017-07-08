@@ -16,13 +16,13 @@
 
 /* Font */
 body {
-    font-family: "DejaVu Sans";
-    font-size: 9pt;
+  font-family: "DejaVu Sans";
+  font-size: 9pt;
 }
 
 /* Header */
 header {
-	text-align: center;
+  text-align: center;
 }
 
 /* Footer */
@@ -35,11 +35,11 @@ footer {
   td {
     font-size: 8pt;
     width: 33%;
-    
+
     &.center {
       text-align: center;
     }
-    
+
     &.right {
       @include text-align(right);
     }
@@ -48,7 +48,7 @@ footer {
 
 /* Page */
 h2 {
-	text-align: center;
+  text-align: center;
   font-size: 13pt
 }
 
@@ -64,29 +64,29 @@ h2 {
 
 /* family-block */
 table {
-	border-collapse: collapse;
-	table-layout: fixed;
-	width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
 }
 
 td {
-	vertical-align: top;
+  vertical-align: top;
 }
 
 .parents {
-    margin-top: 10px;
+  margin-top: 10px;
 
-    .index {
-      width: 45px;
-    }
-    
-    @at-root .name-first {
-      font-weight: bold;
-    }
-    
-    .image {
-        padding-right: 10px;
-    }
+  .index {
+    width: 45px;
+  }
+
+  @at-root .name-first {
+    font-weight: bold;
+  }
+
+  .image {
+    padding-right: 10px;
+  }
 }
 
 .children {
@@ -98,7 +98,7 @@ td {
     margin-left: 45px;
 
     .index {
-     width: 60px;
+      width: 60px;
     }
   }
 }

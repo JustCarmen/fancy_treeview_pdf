@@ -26,69 +26,69 @@ use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\FancyTreeviewPdfClass;
 
 class AdminTemplate extends FancyTreeviewPdfClass {
 
-	protected function pageContent() {
-		$controller = new PageController;
-		return
-			$this->pageHeader($controller) .
-			$this->pageBody($controller);
-	}
+  protected function pageContent() {
+    $controller = new PageController;
+    return
+        $this->pageHeader($controller) .
+        $this->pageBody($controller);
+  }
 
-	private function pageHeader(PageController $controller) {
-		$controller
-			->restrictAccess(Auth::isAdmin())
-			->setPageTitle(I18N::translate('Fancy Treeview PDF'))
-			->pageHeader();
-	}
+  private function pageHeader(PageController $controller) {
+    $controller
+        ->restrictAccess(Auth::isAdmin())
+        ->setPageTitle(I18N::translate('Fancy Treeview PDF'))
+        ->pageHeader();
+  }
 
-	private function pageBody(PageController $controller) {
-		
-		echo Bootstrap4::breadcrumbs([
-			'admin.php'			 => I18N::translate('Control panel'),
-			'admin_modules.php'	 => I18N::translate('Module administration'),
-			], $controller->getPageTitle());
-		?>
+  private function pageBody(PageController $controller) {
 
-		<div class="fancy-treeview fancy-treeview-pdf">
+    echo Bootstrap4::breadcrumbs([
+        'admin.php'         => I18N::translate('Control panel'),
+        'admin_modules.php' => I18N::translate('Module administration'),
+        ], $controller->getPageTitle());
+    ?>
+
+    <div class="fancy-treeview fancy-treeview-pdf">
       <div class="fancy-treeview-pdf-admin">
-			<h1><?= $controller->getPageTitle() ?></h1>
-			<form class="form-horizontal" method="post">
-				<?= Filter::getCsrf() ?>
-				<input type="hidden" name="save" value="1">
-				<!-- PDF ACCESS LEVEL -->
-				<div class="row form-group">
-					<label class="col-form-label col-sm-4">
-						<?= I18N::translate('Access level') ?>
-					</label>
-					<div class="col-sm-8">
-						<?= Bootstrap4::select(FunctionsEdit::optionsAccessLevels(), $this->getPreference('FTV_PDF_ACCESS_LEVEL'), ['name' => 'NEW_FTV_PDF_ACCESS_LEVEL']) ?>
-					</div>
-				</div>
-				<!-- PDF TAB ICON -->
-				<div class="row form-group">
-					<label class="col-form-label col-sm-4">
-						<?= I18N::translate('Show a PDF icon in the Fancy Treeview tab') ?>
-					</label>
-					<div class="col-sm-8">
-						<?php
-						if (!$this->getPreference('FTV_PDF_TAB')) {
-							$this->setPreference('FTV_PDF_TAB', 0);
-						}
-						?>
-						<?= Bootstrap4::radioButtons('NEW_FTV_PDF_TAB', FunctionsEdit::optionsNoYes(), $this->getPreference('FTV_PDF_TAB'), true) ?>
-					</div>
-					<p class="col-sm-8 offset-sm-4 small text-muted">
-						<?= /* I18N: Help text for the “Show a PDF icon in the Fancy Treeview tab” configuration setting */ I18N::translate('By default the PDF icon is visible on the Fancy Treeview page. If you enable this option, a PDF icon is also displayed in the Fancy Treeview tab on the individual page.') ?>
-					</p>
-				</div>
-				<!-- BUTTONS -->
-				<button class="btn btn-primary" type="submit">
-					<i class="fa fa-check"></i>
-					<?= I18N::translate('save') ?>
-				</button>
-			</form>
+        <h1><?= $controller->getPageTitle() ?></h1>
+        <form class="form-horizontal" method="post">
+          <?= Filter::getCsrf() ?>
+          <input type="hidden" name="save" value="1">
+          <!-- PDF ACCESS LEVEL -->
+          <div class="row form-group">
+            <label class="col-form-label col-sm-4">
+              <?= I18N::translate('Access level') ?>
+            </label>
+            <div class="col-sm-8">
+              <?= Bootstrap4::select(FunctionsEdit::optionsAccessLevels(), $this->getPreference('FTV_PDF_ACCESS_LEVEL'), ['name' => 'NEW_FTV_PDF_ACCESS_LEVEL']) ?>
+            </div>
+          </div>
+          <!-- PDF TAB ICON -->
+          <div class="row form-group">
+            <label class="col-form-label col-sm-4">
+              <?= I18N::translate('Show a PDF icon in the Fancy Treeview tab') ?>
+            </label>
+            <div class="col-sm-8">
+              <?php
+              if (!$this->getPreference('FTV_PDF_TAB')) {
+                $this->setPreference('FTV_PDF_TAB', 0);
+              }
+              ?>
+              <?= Bootstrap4::radioButtons('NEW_FTV_PDF_TAB', FunctionsEdit::optionsNoYes(), $this->getPreference('FTV_PDF_TAB'), true) ?>
+            </div>
+            <p class="col-sm-8 offset-sm-4 small text-muted">
+              <?= /* I18N: Help text for the “Show a PDF icon in the Fancy Treeview tab” configuration setting */ I18N::translate('By default the PDF icon is visible on the Fancy Treeview page. If you enable this option, a PDF icon is also displayed in the Fancy Treeview tab on the individual page.') ?>
+            </p>
+          </div>
+          <!-- BUTTONS -->
+          <button class="btn btn-primary" type="submit">
+            <i class="fa fa-check"></i>
+            <?= I18N::translate('save') ?>
+          </button>
+        </form>
       </div>
-		</div>
-		<?php
-	}
+    </div>
+    <?php
+  }
 
 }
