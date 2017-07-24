@@ -99,7 +99,7 @@ class FancyTreeviewPdfClass extends FancyTreeviewPdfModule {
       if ($tab && $this->tab()) {
         return
             '<script>' . $scriptvars . '</script>' .
-            '<script src="' . WT_STATIC_URL . $this->directory . '/js/pdf.js" defer="defer"></script>';
+            '<script src="' . $this->directory . '/js/pdf.js" defer="defer"></script>';
       } else {
         $controller
             ->addInlineJavascript($scriptvars, BaseController::JS_PRIORITY_HIGH)

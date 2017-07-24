@@ -74,7 +74,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
   public function __construct() {
     parent::__construct();
 
-    $this->directory = WT_STATIC_URL . WT_MODULES_DIR . $this->getName();
+    $this->directory = WT_MODULES_DIR . $this->getName();
 
     // register the namespaces
     $loader = new ClassLoader();
