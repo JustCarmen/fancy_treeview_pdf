@@ -32,7 +32,7 @@ use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
  * This module works with Fancy Treeview version 1.7.9 or higher.
  * 
  */
-const FTV_COMPATIBLE_VERSION = '1.8.0-dev';
+const FTV_COMPATIBLE_VERSION = '2.0.0-dev';
 
 /**
  * PDF extension for the Fancy Treeview module
@@ -67,7 +67,7 @@ if (file_exists(WT_MODULES_DIR . 'fancy_treeview') && $ftv_module_status === 'di
 
 class FancyTreeviewPdfModule extends FancyTreeviewModule {
 
-  const CUSTOM_VERSION = '1.8.0-dev';
+  const CUSTOM_VERSION = '2.0.0-dev';
   const CUSTOM_WEBSITE = 'http://www.justcarmen.nl/fancy-modules/fancy-treeview-pdf/';
 
   /** {@inheritdoc} */
