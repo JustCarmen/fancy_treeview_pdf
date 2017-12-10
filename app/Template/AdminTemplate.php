@@ -25,28 +25,25 @@ use Fisharebest\Webtrees\I18N;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\FancyTreeviewPdfClass;
 
 class AdminTemplate extends FancyTreeviewPdfClass {
+	protected function pageContent() {
+		$controller = new PageController;
+		return
+		$this->pageHeader($controller) .
+		$this->pageBody($controller);
+	}
 
-  protected function pageContent() {
-    $controller = new PageController;
-    return
-        $this->pageHeader($controller) .
-        $this->pageBody($controller);
-  }
+	private function pageHeader(PageController $controller) {
+		$controller
+		->restrictAccess(Auth::isAdmin())
+		->setPageTitle(I18N::translate('Fancy Treeview PDF'))
+		->pageHeader();
+	}
 
-  private function pageHeader(PageController $controller) {
-    $controller
-        ->restrictAccess(Auth::isAdmin())
-        ->setPageTitle(I18N::translate('Fancy Treeview PDF'))
-        ->pageHeader();
-  }
-
-  private function pageBody(PageController $controller) {
-
-    echo Bootstrap4::breadcrumbs([
-        'admin.php'         => I18N::translate('Control panel'),
-        'admin_modules.php' => I18N::translate('Module administration'),
-        ], $controller->getPageTitle());
-    ?>
+	private function pageBody(PageController $controller) {
+		echo Bootstrap4::breadcrumbs([
+		'admin.php'         => I18N::translate('Control panel'),
+		'admin_modules.php' => I18N::translate('Module administration'),
+		], $controller->getPageTitle()); ?>
 
     <div class="fancy-treeview fancy-treeview-pdf">
       <div class="fancy-treeview-pdf-admin">
@@ -70,10 +67,9 @@ class AdminTemplate extends FancyTreeviewPdfClass {
             </label>
             <div class="col-sm-8">
               <?php
-              if (!$this->getPreference('FTV_PDF_TAB')) {
-                $this->setPreference('FTV_PDF_TAB', 0);
-              }
-              ?>
+			  if (!$this->getPreference('FTV_PDF_TAB')) {
+			  	$this->setPreference('FTV_PDF_TAB', 0);
+			  } ?>
               <?= Bootstrap4::radioButtons('NEW_FTV_PDF_TAB', FunctionsEdit::optionsNoYes(), $this->getPreference('FTV_PDF_TAB'), true) ?>
             </div>
             <p class="col-sm-8 offset-sm-4 small text-muted">
@@ -89,6 +85,5 @@ class AdminTemplate extends FancyTreeviewPdfClass {
       </div>
     </div>
     <?php
-  }
-
+	}
 }
