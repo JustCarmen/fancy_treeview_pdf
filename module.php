@@ -22,6 +22,7 @@ use Fisharebest\Webtrees\Database;
 use Fisharebest\Webtrees\File;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\FlashMessages;
+use Fisharebest\Webtrees\Html;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Log;
 use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
