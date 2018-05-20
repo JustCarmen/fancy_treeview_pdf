@@ -24,6 +24,7 @@ use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\FlashMessages;
 use Fisharebest\Webtrees\Html;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Log;
 use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
@@ -160,7 +161,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	}
 
 	/** {@inheritdoc} */
-	public function hasTabContent() {
+	public function hasTabContent(Individual $individualI) {
 		return false;
 	}
 
