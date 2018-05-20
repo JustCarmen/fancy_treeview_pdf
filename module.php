@@ -161,7 +161,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	}
 
 	/** {@inheritdoc} */
-	public function hasTabContent(Individual $individualI) {
+	public function hasTabContent(Individual $individual) {
 		return false;
 	}
 
