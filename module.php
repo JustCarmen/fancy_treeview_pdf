@@ -26,6 +26,7 @@ use Fisharebest\Webtrees\Html;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Log;
+use Fisharebest\Webtrees\Tree;
 use JustCarmen\WebtreesAddOns\FancyTreeview\FancyTreeviewModule;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\AdminTemplate;
 use JustCarmen\WebtreesAddOns\FancyTreeviewPdf\Template\PdfTemplate;
@@ -166,7 +167,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	}
 
 	/** {@inheritdoc} */
-	public function getMenu() {
+	public function getMenu(Tree $tree) {
 		return null;
 	}
 
