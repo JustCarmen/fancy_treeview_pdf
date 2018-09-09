@@ -84,22 +84,22 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 		$loader->register();
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return 'fancy_treeview_pdf';
 	}
 
 	/** {@inheritdoc} */
-	public function getTitle() {
+	public function getTitle(): string {
 		return /* I18N: Name of the Fancy Treeview PDF-module */ I18N::translate('Fancy Treeview PDF');
 	}
 
 	/** {@inheritdoc} */
-	public function getDescription() {
+	public function getDescription(): string {
 		return /* I18N: Description of the module */ I18N::translate('Fancy Treeview module extension: offer your users to download a Fancy Treeview page as PDF.');
 	}
 
 	/** {@inheritdoc} */
-	public function getConfigLink() {
+	public function getConfigLink(): string {
 		return Html::url('module.php', [
 			'mod'        => $this->getName(),
 			'mod_action' => 'admin_config',
@@ -162,7 +162,7 @@ class FancyTreeviewPdfModule extends FancyTreeviewModule {
 	}
 
 	/** {@inheritdoc} */
-	public function hasTabContent(Individual $individual) {
+	public function hasTabContent(Individual $individual): bool {
 		return false;
 	}
 
