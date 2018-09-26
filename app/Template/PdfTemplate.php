@@ -1,7 +1,7 @@
 <?php
 /**
  * webtrees: online genealogy
- * Copyright (C) 2017 JustCarmen
+ * Copyright (C) 2018 JustCarmen (http://justcarmen.nl)
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -25,7 +25,7 @@ class PdfTemplate extends FancyTreeviewPdfClass {
 	public function pageBody() {
 		$tmp_dir = WT_DATA_DIR . 'ftv_pdf_tmp/';
 
-		require_once(WT_MODULES_DIR . $this->getName() . '/mpdf/vendor/autoload.php');
+		require_once(WT_MODULES_DIR . $this->getName() . '/vendor/autoload.php');
 
 		$stylesheet     = file_get_contents($this->directory . '/css/style.css');
 		$stylesheet_rtl = file_get_contents($this->directory . '/css/style-rtl.css');
